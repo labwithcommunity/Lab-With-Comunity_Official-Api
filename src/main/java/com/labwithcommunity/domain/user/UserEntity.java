@@ -1,4 +1,4 @@
 package com.labwithcommunity.domain.user;
 
-public class User {
+public class UserEntity {
 }
