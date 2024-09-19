@@ -3,6 +3,7 @@ package com.labwithcommunity.domain.user;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
+import com.labwithcommunity.domain.user.enums.UserRoles;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;

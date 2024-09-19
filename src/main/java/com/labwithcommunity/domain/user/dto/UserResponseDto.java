@@ -1,6 +1,6 @@
 package com.labwithcommunity.domain.user.dto;
 
-import com.labwithcommunity.domain.user.UserRoles;
+import com.labwithcommunity.domain.user.enums.UserRoles;
 import lombok.Builder;
 
 import java.util.Set;
