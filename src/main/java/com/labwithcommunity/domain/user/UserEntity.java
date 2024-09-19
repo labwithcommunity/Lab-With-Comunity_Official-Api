@@ -25,8 +25,8 @@ class UserEntity {
     private String email;
     private Set<UserRoles> roles;
 
-    public UserEntity(String username, String password, String nickname, String email) {
-        this.username = username;
+    public UserEntity( String password, String nickname, String email) {
+        this.username = nickname;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
