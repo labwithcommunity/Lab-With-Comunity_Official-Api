@@ -3,7 +3,7 @@ package com.labwithcommunity.domain.user;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.exception.ExceptionMessages;
+import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ class UserService {
     UserResponseDto getUserByNickname(String nickname) {
         return userRepository.findByNickname(nickname)
                 .map(UserMapper::mapToUserResponseDto)
-                .orElseThrow(()->new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
     @Transactional
     public boolean addRoleToUser(Set<UserRoles> userRoles, String nickname) {
         Optional<UserEntity> byNickname = userRepository.findByNickname(nickname);
-        UserEntity user = byNickname.orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND.getMessage()));
+        UserEntity user = byNickname.orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
         log.info("Adding role to user: {}", user);
         return user.getRoles().addAll(userRoles);
     }
@@ -45,11 +45,7 @@ class UserService {
     private void isNicknameExist(UserCreateDto userCreateDto) {
         boolean userExists = userRepository.existsByNickname(userCreateDto.nickname());
         if (userExists) {
-            throw new UserAlreadyExistsException(ExceptionMessages.NICKNAME_ALREADY_EXIST.getMessage());
+            throw new UserAlreadyExistsException(UserExceptionMessages.NICKNAME_ALREADY_EXIST.getMessage());
         }
     }
-
-
-
-
 }

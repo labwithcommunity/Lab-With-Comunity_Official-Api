@@ -7,5 +7,5 @@ public record UserCreateResponseDto(
         String username,
         String nickname,
         String email
-        ) {
+) {
 }

@@ -15,5 +15,4 @@ class UserBeanConfiguration {
     UserFacade userFacade(UserService userService) {
         return new UserFacade(userService);
     }
-
 }

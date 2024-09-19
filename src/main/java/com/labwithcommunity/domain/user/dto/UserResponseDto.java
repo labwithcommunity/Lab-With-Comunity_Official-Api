@@ -7,9 +7,9 @@ import java.util.Set;
 
 @Builder
 public record UserResponseDto(
-         String username,
-         String nickname,
-         String email,
-         Set<UserRoles>roles
+        String username,
+        String nickname,
+        String email,
+        Set<UserRoles> roles
 ) {
 }
