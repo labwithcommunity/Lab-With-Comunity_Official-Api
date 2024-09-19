@@ -7,7 +7,13 @@ import org.springframework.context.annotation.Configuration;
 class UserBeanConfiguration {
 
     @Bean
-    public UserService userService(UserRepository userRepository) {
+     UserService userService(UserRepository userRepository) {
         return new UserService(userRepository);
     }
+
+    @Bean
+    UserFacade userFacade(UserService userService) {
+        return new UserFacade(userService);
+    }
+
 }
