@@ -1,19 +1,15 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.domain.user.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.*;
 
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
-@Table(name = "Users")
+@Data
+@Table(name = "users")
 class UserEntity {
 
     @Id
@@ -23,13 +19,13 @@ class UserEntity {
     private String password;
     private String nickname;
     private String email;
-    private Set<UserRoles> roles;
+    private Set<UserRoles> roles = new HashSet<>();
 
-    public UserEntity( String password, String nickname, String email) {
+
+    public UserEntity(String password, String nickname, String email) {
         this.username = nickname;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
-        this.roles = new HashSet<>();
     }
 }
