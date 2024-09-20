@@ -1,6 +1,6 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.enums.UserRoles;
+import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,16 +16,21 @@ class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String username;
-    private String password;
     private String nickname;
+    private String password;
     private String email;
-    private Set<UserRoles> roles = new HashSet<>();
+    private Set<UserMemberRoles> roles = new HashSet<>();
+    @ElementCollection
+    private Set<Technologies> technologies = new HashSet<>();
 
 
-    public UserEntity(String password, String nickname, String email) {
+
+    public UserEntity(String nickname,String password,  String email, Set<Technologies> technologies) {
         this.username = nickname;
-        this.password = password;
         this.nickname = nickname;
+        this.password = password;
         this.email = email;
+        this.technologies = technologies;
     }
+
 }

@@ -3,7 +3,7 @@ package com.labwithcommunity.domain.user;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.enums.UserRoles;
+import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
@@ -20,7 +20,7 @@ public class UserFacade {
     public UserCreateResponseDto registerUser(UserCreateDto userCreateDto) {
         return userService.register(userCreateDto);
     }
-    public boolean addRolesToUser(Set<UserRoles> userRoles, String nickname){
-        return userService.addRoleToUser(userRoles, nickname);
+    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String nickname){
+        return userService.addRoleToUser(userMemberRoles, nickname);
     }
 }
