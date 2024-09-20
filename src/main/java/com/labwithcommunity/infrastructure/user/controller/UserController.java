@@ -14,18 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class UserController {
 
     private final UserFacade userFacade;
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserCreateResponseDto> addUser(@RequestBody UserCreateDto userCreateDto) {
-        UserCreateResponseDto userCreateResponseDto = userFacade.registerUser(userCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userCreateResponseDto);
-    }
 
     @GetMapping
     public ResponseEntity<UserResponseDto> getUserByNickname(@RequestParam String nickname) {
