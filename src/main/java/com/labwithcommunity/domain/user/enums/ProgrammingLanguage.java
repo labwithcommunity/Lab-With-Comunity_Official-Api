@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum UserRoles {
+public enum ProgrammingLanguage {
+    JAVA("Java"), PYTHON("Python");
+    private final String name;
 
-    ADMIN("admin"), MEMBER("member"), USER("user");
-    private final String role;
 }

@@ -4,7 +4,7 @@ import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.enums.UserRoles;
+import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +16,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class UserController {
 
     private final UserFacade userFacade;
@@ -26,8 +27,8 @@ public class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    @PutMapping
-    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String nickname, @RequestBody Set<UserRoles> role) {
+    @PutMapping("/role")
+    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String nickname, @RequestBody Set<UserMemberRoles> role) {
         boolean isAdded = userFacade.addRolesToUser(role, nickname);
         return ResponseEntity.ok(isAdded);
     }
