@@ -7,7 +7,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Configuration
