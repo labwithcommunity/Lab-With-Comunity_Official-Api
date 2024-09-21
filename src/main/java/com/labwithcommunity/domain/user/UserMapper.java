@@ -7,8 +7,8 @@ class UserMapper {
 
     static UserEntity mapToUserEntity(UserCreateDto user) {
         return new UserEntity(user.nickname(),
-                user.email(),
                 user.password(),
+                user.email(),
                 user.technologies());
     }
 
