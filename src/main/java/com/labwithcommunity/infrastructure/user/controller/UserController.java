@@ -18,8 +18,8 @@ public class UserController {
     private final UserFacade userFacade;
 
     @GetMapping
-    public ResponseEntity<UserResponseDto> getUserByNickname(@RequestParam String username) {
-        UserResponseDto userResponseDto = userFacade.findUserByNickname(username);
+    public ResponseEntity<UserResponseDto> getUserByUsername(@RequestParam String username) {
+        UserResponseDto userResponseDto = userFacade.findUserByUsername(username);
         return ResponseEntity.ok(userResponseDto);
     }
 

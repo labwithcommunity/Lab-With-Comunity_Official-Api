@@ -43,8 +43,8 @@ class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    UserResponseDto getUserByNickname(String nickname) {
-        return userRepository.findByUsername(nickname)
+    UserResponseDto getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
                 .map(UserMapper::mapToUserResponseDto)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }

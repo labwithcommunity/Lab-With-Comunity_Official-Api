@@ -13,8 +13,8 @@ public class UserFacade {
 
     private final UserService userService;
 
-    public UserResponseDto findUserByNickname(String username) {
-        return userService.getUserByNickname(username);
+    public UserResponseDto findUserByUsername(String username) {
+        return userService.getUserByUsername(username);
     }
 
     public UserCreateResponseDto registerUser(UserCreateDto userCreateDto) {

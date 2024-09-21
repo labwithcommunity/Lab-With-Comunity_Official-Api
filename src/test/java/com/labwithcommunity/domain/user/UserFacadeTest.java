@@ -65,7 +65,7 @@ class UserFacadeTest {
         userFacade.addRolesToUser(role,nickname);
 
         //Then
-        UserResponseDto userByNickname = userFacade.findUserByNickname(nickname);
+        UserResponseDto userByNickname = userFacade.findUserByUsername(nickname);
         assertEquals(role, userByNickname.roles());
     }
 
@@ -76,7 +76,7 @@ class UserFacadeTest {
         registerTestUser();
 
         //When
-        UserResponseDto userByNickname = userFacade.findUserByNickname(nickname);
+        UserResponseDto userByNickname = userFacade.findUserByUsername(nickname);
 
         //Then
         assertEquals(userRegisterDto.username(), userByNickname.nickname());
@@ -92,6 +92,6 @@ class UserFacadeTest {
         String wrongNickname = "wrongNickname";
         assertEquals(correctNickname, userRegisterDto.username());
         assertThrows(UserNotFoundException.class,
-                () -> userFacade.findUserByNickname(wrongNickname));
+                () -> userFacade.findUserByUsername(wrongNickname));
     }
 }
