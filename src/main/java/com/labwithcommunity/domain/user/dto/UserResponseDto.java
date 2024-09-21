@@ -11,7 +11,7 @@ public record UserResponseDto(
         String username,
         String nickname,
         String email,
-        Set<UserMemberRoles> roles,
+//        Set<UserMemberRoles> roles,
         Set<Technologies> technologies
 
 ) {

@@ -3,6 +3,9 @@ package com.labwithcommunity.domain.user;
 import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
@@ -10,7 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 @Data
 @Table(name = "users")
-class UserEntity {
+class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +22,8 @@ class UserEntity {
     private String nickname;
     private String password;
     private String email;
-    private Set<UserMemberRoles> roles = new HashSet<>();
+//    private Set<UserMemberRoles> roles = new HashSet<>();
+    private String role;
     @ElementCollection
     private Set<Technologies> technologies = new HashSet<>();
 
@@ -33,4 +37,28 @@ class UserEntity {
         this.technologies = technologies;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

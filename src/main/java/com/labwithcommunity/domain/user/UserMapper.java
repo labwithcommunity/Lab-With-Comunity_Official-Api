@@ -16,7 +16,7 @@ class UserMapper {
         return new UserResponseDto(userEntity.getUsername(),
                 userEntity.getNickname(),
                 userEntity.getEmail(),
-                userEntity.getRoles(),
+//                userEntity.getRoles(),
                 userEntity.getTechnologies());
     }
 }

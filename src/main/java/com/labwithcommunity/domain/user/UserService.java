@@ -9,6 +9,7 @@ import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -20,13 +21,18 @@ class UserService {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     UserCreateResponseDto register(UserCreateDto userCreateDto) {
         if (isUsernameExist(userCreateDto.username())) {
             throw new UserAlreadyExistsException(UserExceptionMessages.USERNAME_ALREADY_EXIST.getMessage());
         }
 
         try {
-            UserEntity savedUserEntity = userRepository.save(UserMapper.mapToUserEntity(userCreateDto));
+            UserEntity userEntity = UserMapper.mapToUserEntity(userCreateDto);
+            userEntity.setPassword(passwordEncoder.encode(userCreateDto.password()));
+            userEntity.setRole("USER");
+            UserEntity savedUserEntity = userRepository.save(userEntity);
             log.info("User registered: {}", savedUserEntity.getId());
             return new UserCreateResponseDto(
                     savedUserEntity.getUsername(),
@@ -49,11 +55,11 @@ class UserService {
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
-    @Transactional
-    boolean addRoleToUser(Set<UserMemberRoles> userMemberRoles, String username) {
-        Optional<UserEntity> byUsername = userRepository.findByUsername(username);
-        UserEntity user = byUsername.orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
-        log.info("Adding role to user: {}", user);
-        return user.getRoles().addAll(userMemberRoles);
-    }
+//    @Transactional
+//    boolean addRoleToUser(Set<UserMemberRoles> userMemberRoles, String username) {
+//        Optional<UserEntity> byUsername = userRepository.findByUsername(username);
+//        UserEntity user = byUsername.orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
+//        log.info("Adding role to user: {}", user);
+//        return user.getRoles().addAll(userMemberRoles);
+//    }
 }
