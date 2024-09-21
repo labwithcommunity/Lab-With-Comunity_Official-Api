@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum UserExceptionMessages {
 
-    NICKNAME_ALREADY_EXIST("User already Exist"),
+    USERNAME_ALREADY_EXIST("User already Exist"),
     USER_NOT_FOUND("User Not Found");
     final String message;
 

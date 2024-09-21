@@ -21,16 +21,16 @@ class UserService {
     private final UserRepository userRepository;
 
     UserCreateResponseDto register(UserCreateDto userCreateDto) {
-        if (isNicknameExist(userCreateDto.nickname())) {
-            throw new UserAlreadyExistsException(UserExceptionMessages.NICKNAME_ALREADY_EXIST.getMessage());
+        if (isUsernameExist(userCreateDto.username())) {
+            throw new UserAlreadyExistsException(UserExceptionMessages.USERNAME_ALREADY_EXIST.getMessage());
         }
 
         try {
             UserEntity savedUserEntity = userRepository.save(UserMapper.mapToUserEntity(userCreateDto));
-            log.info("User registered: {}", savedUserEntity);
+            log.info("User registered: {}", savedUserEntity.getId());
             return new UserCreateResponseDto(
-                    savedUserEntity.getNickname(),
-                    savedUserEntity.getNickname(),
+                    savedUserEntity.getUsername(),
+                    savedUserEntity.getUsername(),
                     savedUserEntity.getEmail()
             );
         } catch (Exception exception) {
@@ -39,20 +39,20 @@ class UserService {
         }
     }
 
-    private boolean isNicknameExist(String nickname) {
-        return userRepository.existsByNickname(nickname);
+    private boolean isUsernameExist(String username) {
+        return userRepository.existsByUsername(username);
     }
 
-    UserResponseDto getUserByNickname(String nickname) {
-        return userRepository.findByNickname(nickname)
+    UserResponseDto getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
                 .map(UserMapper::mapToUserResponseDto)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
     @Transactional
-    boolean addRoleToUser(Set<UserMemberRoles> userMemberRoles, String nickname) {
-        Optional<UserEntity> byNickname = userRepository.findByNickname(nickname);
-        UserEntity user = byNickname.orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
+    boolean addRoleToUser(Set<UserMemberRoles> userMemberRoles, String username) {
+        Optional<UserEntity> byUsername = userRepository.findByUsername(username);
+        UserEntity user = byUsername.orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
         log.info("Adding role to user: {}", user);
         return user.getRoles().addAll(userMemberRoles);
     }

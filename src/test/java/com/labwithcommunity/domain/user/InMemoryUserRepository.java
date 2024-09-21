@@ -17,12 +17,12 @@ import java.util.function.Function;
     ConcurrentHashMap<String, UserEntity> dataBase = new ConcurrentHashMap<>();
 
     @Override
-    public boolean existsByNickname(String nickname) {
+    public boolean existsByUsername(String nickname) {
         return dataBase.containsKey(nickname);
     }
 
     @Override
-    public Optional<UserEntity> findByNickname(String nickname) {
+    public Optional<UserEntity> findByUsername(String nickname) {
         return Optional.ofNullable(dataBase.get(nickname));
     }
 
