@@ -13,14 +13,14 @@ public class UserFacade {
 
     private final UserService userService;
 
-    public UserResponseDto findUserByNickname(String nickname) {
-        return userService.getUserByNickname(nickname);
+    public UserResponseDto findUserByNickname(String username) {
+        return userService.getUserByNickname(username);
     }
 
     public UserCreateResponseDto registerUser(UserCreateDto userCreateDto) {
         return userService.register(userCreateDto);
     }
-    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String nickname){
-        return userService.addRoleToUser(userMemberRoles, nickname);
+    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String username){
+        return userService.addRoleToUser(userMemberRoles, username);
     }
 }

@@ -1,13 +1,9 @@
 package com.labwithcommunity.infrastructure.user.controller;
 
 import com.labwithcommunity.domain.user.UserFacade;
-import com.labwithcommunity.domain.user.dto.UserCreateDto;
-import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
 import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +18,14 @@ public class UserController {
     private final UserFacade userFacade;
 
     @GetMapping
-    public ResponseEntity<UserResponseDto> getUserByNickname(@RequestParam String nickname) {
-        UserResponseDto userResponseDto = userFacade.findUserByNickname(nickname);
+    public ResponseEntity<UserResponseDto> getUserByNickname(@RequestParam String username) {
+        UserResponseDto userResponseDto = userFacade.findUserByNickname(username);
         return ResponseEntity.ok(userResponseDto);
     }
 
     @PutMapping("/role")
-    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String nickname, @RequestBody Set<UserMemberRoles> role) {
-        boolean isAdded = userFacade.addRolesToUser(role, nickname);
+    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String username, @RequestBody Set<UserMemberRoles> role) {
+        boolean isAdded = userFacade.addRolesToUser(role, username);
         return ResponseEntity.ok(isAdded);
     }
 }

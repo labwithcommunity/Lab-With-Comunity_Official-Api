@@ -37,8 +37,8 @@ class UserFacadeTest {
         //Then
         assertAll(
                 () -> Assertions.assertNotNull(saveUser),
-                ()-> assertEquals(userRegisterDto.nickname(), saveUser.nickname()),
-                ()-> assertEquals(userRegisterDto.nickname(), saveUser.username()),
+                ()-> assertEquals(userRegisterDto.username(), saveUser.nickname()),
+                ()-> assertEquals(userRegisterDto.username(), saveUser.username()),
                 ()-> assertEquals(userRegisterDto.email(), saveUser.email())
         );
     }
@@ -49,7 +49,7 @@ class UserFacadeTest {
         UserCreateResponseDto userInDb = registerTestUser();
 
         //When && Then
-        assertEquals(userRegisterDto.nickname(), userInDb.nickname());
+        assertEquals(userRegisterDto.username(), userInDb.nickname());
         assertThrows(UserAlreadyExistsException.class,
                 () -> userFacade.registerUser(userRegisterDto));
     }
@@ -58,7 +58,7 @@ class UserFacadeTest {
      void shouldAddMemberRoleToUserSuccessfully() {
         //Given
         Set<UserMemberRoles> role = Set.of(UserMemberRoles.MEMBER);
-        String nickname = userRegisterDto.nickname();
+        String nickname = userRegisterDto.username();
         registerTestUser();
 
         //When
@@ -72,25 +72,25 @@ class UserFacadeTest {
     @Test
      void shoudlFindUserWithGivenNicknameSuccessfully() {
         //Given
-        String nickname = userRegisterDto.nickname();
+        String nickname = userRegisterDto.username();
         registerTestUser();
 
         //When
         UserResponseDto userByNickname = userFacade.findUserByNickname(nickname);
 
         //Then
-        assertEquals(userRegisterDto.nickname(), userByNickname.nickname());
+        assertEquals(userRegisterDto.username(), userByNickname.nickname());
     }
 
     @Test
     void shouldThrowUserNotFoundException() {
         //Given
         registerTestUser();
-        String correctNickname = userRegisterDto.nickname();
+        String correctNickname = userRegisterDto.username();
 
         //When && Then
         String wrongNickname = "wrongNickname";
-        assertEquals(correctNickname, userRegisterDto.nickname());
+        assertEquals(correctNickname, userRegisterDto.username());
         assertThrows(UserNotFoundException.class,
                 () -> userFacade.findUserByNickname(wrongNickname));
     }

@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Builder
 public record UserCreateDto(
-        String nickname,
+        String username,
         String password,
         String email,
         Set<Technologies>technologies

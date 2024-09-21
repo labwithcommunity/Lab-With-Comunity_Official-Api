@@ -6,7 +6,7 @@ import com.labwithcommunity.domain.user.dto.UserResponseDto;
 class UserMapper {
 
     static UserEntity mapToUserEntity(UserCreateDto user) {
-        return new UserEntity(user.nickname(),
+        return new UserEntity(user.username(),
                 user.password(),
                 user.email(),
                 user.technologies());
