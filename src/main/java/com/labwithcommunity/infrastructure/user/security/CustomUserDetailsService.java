@@ -1,8 +1,8 @@
-package com.labwithcommunity.domain.user;
+package com.labwithcommunity.infrastructure.user.security;
 
+import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
