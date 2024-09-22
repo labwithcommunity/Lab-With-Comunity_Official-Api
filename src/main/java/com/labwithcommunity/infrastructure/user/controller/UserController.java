@@ -5,6 +5,8 @@ import com.labwithcommunity.domain.user.dto.UserResponseDto;
 import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -23,9 +25,16 @@ public class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    @PutMapping("/role")
-    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String username, @RequestBody Set<UserMemberRoles> role) {
-        boolean isAdded = userFacade.addRolesToUser(role, username);
-        return ResponseEntity.ok(isAdded);
+    @GetMapping("/get-current-user")
+    public ResponseEntity<UserResponseDto> getCurrentUser(@AuthenticationPrincipal UserDetails principal) {
+        String username = principal.getUsername();
+        UserResponseDto userResponseDto = userFacade.findUserByUsername(username);
+        return ResponseEntity.ok(userResponseDto);
     }
+
+//    @PutMapping("/role")
+//    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String username, @RequestBody Set<UserMemberRoles> role) {
+//        boolean isAdded = userFacade.addRolesToUser(role, username);
+//        return ResponseEntity.ok(isAdded);
+//    }
 }

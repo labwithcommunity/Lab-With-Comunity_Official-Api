@@ -20,7 +20,7 @@ public class UserFacade {
     public UserCreateResponseDto registerUser(UserCreateDto userCreateDto) {
         return userService.register(userCreateDto);
     }
-    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String username){
-        return userService.addRoleToUser(userMemberRoles, username);
-    }
+//    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String username){
+//        return userService.addRoleToUser(userMemberRoles, username);
+//    }
 }
