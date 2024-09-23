@@ -2,14 +2,20 @@ package com.labwithcommunity.domain.user.exception;
 
 import lombok.Getter;
 
+import java.util.ResourceBundle;
+
 @Getter
 public enum UserExceptionMessages {
 
-    USERNAME_ALREADY_EXIST("User already Exist"),
-    USER_NOT_FOUND("User Not Found");
+    USERNAME_ALREADY_EXIST("user.already.exist"),
+
+    USER_NOT_FOUND("user.not.found");
+
     final String message;
 
-    UserExceptionMessages(String message) {
-        this.message = message;
+    private final  ResourceBundle messagesBundle = ResourceBundle.getBundle("validationMessages");
+
+    UserExceptionMessages(String messageKey) {
+        this.message = messagesBundle.getString(messageKey);
     }
 }
