@@ -11,16 +11,16 @@ import java.util.Set;
 @Builder
 public record UserCreateDto(
 
-        @Size(min = 4, message = "User name must be at least 4 characters long")
+        @Size(min = 4, message = "{username.size}")
         String username,
 
-        @Size(min = 4, message = "Password must be at least 4 characters long")
+        @Size(min = 4, message = "{password.size}")
         String password,
 
-        @Email(message = "Invalid email format")
+        @Email(message = "{email.format}")
         String email,
 
-        @NotNull(message = "Technologies must not be null")
+        @NotNull(message = "{technologies.not.null}")
         Set<Technologies> technologies
 ) {
 }
