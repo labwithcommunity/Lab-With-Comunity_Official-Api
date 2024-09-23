@@ -1,6 +1,7 @@
 package com.labwithcommunity.infrastructure.user.security;
 
 import com.labwithcommunity.domain.user.UserFacade;
+import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -19,11 +20,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserResponseDto userByUsername = userRepository.findUserByUsername(username);
+        GetLoggedUserDto userByUsername = userRepository.getLoggedUser(username);
         return getUser(userByUsername);
     }
 
-    private User getUser(UserResponseDto userDto){
+    private User getUser(GetLoggedUserDto userDto){
         return new User(
                 userDto.username(),
                 userDto.password(),

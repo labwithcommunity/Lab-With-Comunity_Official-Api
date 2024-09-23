@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
 
@@ -16,8 +17,15 @@ class UserMapper {
         return new UserResponseDto(userEntity.getUsername(),
                 userEntity.getNickname(),
                 userEntity.getEmail(),
-                userEntity.getPassword(),
 //                userEntity.getRoles(),
                 userEntity.getTechnologies());
     }
+
+    static GetLoggedUserDto mapToGetLoggedUser(UserEntity userEntity) {
+        return new GetLoggedUserDto(
+                userEntity.getUsername(),
+                userEntity.getPassword());
+    }
+
+
 }

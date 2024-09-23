@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
@@ -9,6 +10,9 @@ import com.labwithcommunity.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -44,12 +48,17 @@ class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    UserResponseDto getUserByUsername(String username) {
+    public UserResponseDto getUserByUsername(String username) {
+
         return userRepository.findByUsername(username)
                 .map(UserMapper::mapToUserResponseDto)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
+    public GetLoggedUserDto getLoggedUser(String username) {
+        return userRepository.findUsernameAndPasswordByNickname(username)
+                .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
+    }
 //    @Transactional
 //    boolean addRoleToUser(Set<UserMemberRoles> userMemberRoles, String username) {
 //        Optional<UserEntity> byUsername = userRepository.findByUsername(username);

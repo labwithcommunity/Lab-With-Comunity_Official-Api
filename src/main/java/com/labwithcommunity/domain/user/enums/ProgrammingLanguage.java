@@ -6,7 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ProgrammingLanguage {
-    JAVA("Java"), PYTHON("Python");
+    JAVA("Java"),
+    PYTHON("Python");
     private final String name;
 
 }

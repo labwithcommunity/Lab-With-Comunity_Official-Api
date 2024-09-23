@@ -10,7 +10,6 @@ public record UserResponseDto(
         String username,
         String nickname,
         String email,
-        String password,
 //        Set<UserMemberRoles> roles,
         Set<Technologies> technologies
 
