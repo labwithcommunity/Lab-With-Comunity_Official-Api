@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,16 @@ import java.util.function.Function;
         return Optional.ofNullable(dataBase.get(nickname));
     }
 
-    @Override
+     @Override
+     public Optional<GetLoggedUserDto> findUsernameAndPasswordByNickname(String nickname) {
+         UserEntity userEntity = dataBase.get(nickname);
+         return Optional.of(new GetLoggedUserDto(
+                 userEntity.getUsername(),
+                 userEntity.getPassword()
+         ));
+     }
+
+     @Override
     public void flush() {
 
     }
