@@ -24,10 +24,7 @@ class UserMapper {
     static GetLoggedUserDto mapToGetLoggedUser(UserEntity userEntity) {
         return new GetLoggedUserDto(
                 userEntity.getUsername(),
-                userEntity.getNickname(),
-                userEntity.getEmail(),
-                userEntity.getPassword(),
-                userEntity.getTechnologies());
+                userEntity.getPassword());
     }
 
 

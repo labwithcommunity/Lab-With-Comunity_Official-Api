@@ -6,9 +6,6 @@ import java.util.Set;
 
 public record GetLoggedUserDto(
         String username,
-        String nickname,
-        String email,
-        String password,
-        Set<Technologies> technologies
+        String password
 ){
 }

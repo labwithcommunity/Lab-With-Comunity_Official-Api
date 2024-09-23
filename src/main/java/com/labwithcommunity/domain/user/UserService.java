@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -48,19 +49,16 @@ class UserService {
     }
 
     public UserResponseDto getUserByUsername(String username) {
-        return getUserDtoByUsername(username, UserMapper::mapToUserResponseDto);
-    }
 
-    public GetLoggedUserDto getLoggedUser(String username) {
-        return getUserDtoByUsername(username, UserMapper::mapToGetLoggedUser);
-    }
-
-    private <T> T getUserDtoByUsername(String username, Function<UserEntity, T> mapper) {
         return userRepository.findByUsername(username)
-                .map(mapper)
+                .map(UserMapper::mapToUserResponseDto)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
+    public GetLoggedUserDto getLoggedUser(String username) {
+        return userRepository.findUsernameAndPasswordByNickname(username)
+                .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
+    }
 //    @Transactional
 //    boolean addRoleToUser(Set<UserMemberRoles> userMemberRoles, String username) {
 //        Optional<UserEntity> byUsername = userRepository.findByUsername(username);
