@@ -1,17 +1,14 @@
 package com.labwithcommunity.domain.user.dto;
 
 import com.labwithcommunity.domain.user.Technologies;
-import lombok.Builder;
 
 import java.util.Set;
 
-@Builder
-public record UserResponseDto(
+public record GetLoggedUserDto(
         String username,
         String nickname,
         String email,
-//        Set<UserMemberRoles> roles,
+        String password,
         Set<Technologies> technologies
-
-) {
+){
 }
