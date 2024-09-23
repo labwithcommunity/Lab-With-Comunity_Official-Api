@@ -1,10 +1,10 @@
 package com.labwithcommunity.domain.user.dto;
 
 import com.labwithcommunity.domain.user.Technologies;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import jakarta.validation.constraints.Email;
 
 import java.util.Set;
 
