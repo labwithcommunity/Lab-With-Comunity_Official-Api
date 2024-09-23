@@ -3,6 +3,7 @@ package com.labwithcommunity.infrastructure.user.controller;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +18,7 @@ public class AuthControler {
     private final UserFacade userFacade;
 
     @PostMapping("/register")
-    public ResponseEntity<UserCreateResponseDto> addUser(@RequestBody UserCreateDto userCreateDto) {
+    public ResponseEntity<UserCreateResponseDto> registerUser(@RequestBody @Valid UserCreateDto userCreateDto) {
         UserCreateResponseDto userCreateResponseDto = userFacade.registerUser(userCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateResponseDto);
     }
