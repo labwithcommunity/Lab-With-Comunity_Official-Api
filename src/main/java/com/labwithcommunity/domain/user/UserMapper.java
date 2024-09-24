@@ -1,16 +1,18 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
+import com.labwithcommunity.domain.user.dto.UserTechnologyDto;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class UserMapper {
 
     static UserEntity mapToUserEntity(UserCreateDto user) {
         return new UserEntity(user.username(),
                 user.password(),
-                user.email(),
-                user.technologies());
+                user.email());
     }
 
     static UserResponseDto mapToUserResponseDto(UserEntity userEntity) {
@@ -18,14 +20,10 @@ class UserMapper {
                 userEntity.getNickname(),
                 userEntity.getEmail(),
 //                userEntity.getRoles(),
-                userEntity.getTechnologies());
+                userEntity.getTechnologies().stream()
+                        .map(tech -> new UserTechnologyDto(
+                                tech.getProgrammingLanguage(),
+                                tech.getUserTechnologyForProgrammingLanguages()
+                        )).collect(Collectors.toSet()));
     }
-
-    static GetLoggedUserDto mapToGetLoggedUser(UserEntity userEntity) {
-        return new GetLoggedUserDto(
-                userEntity.getUsername(),
-                userEntity.getPassword());
-    }
-
-
 }
