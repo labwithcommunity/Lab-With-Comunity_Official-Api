@@ -19,6 +19,6 @@ class UserBeanConfiguration {
 
     @Bean
     UserFacade userFacade(UserService userService, TechnologyRegistryService technologyRegistryService) {
-        return new UserFacade(userService, technologyRegistryService);
+        return new UserFacade(userService,technologyRegistryService);
     }
 }

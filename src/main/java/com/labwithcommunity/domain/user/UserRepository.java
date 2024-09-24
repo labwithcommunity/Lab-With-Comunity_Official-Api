@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 interface UserRepository extends JpaRepository<UserEntity, UUID> {
     boolean existsByUsername(String nickname);
+
     @Query("SELECT u FROM UserEntity u LEFT JOIN FETCH u.technologies WHERE u.nickname = :nickname")
     Optional<UserEntity> findByUsername(String nickname);
 

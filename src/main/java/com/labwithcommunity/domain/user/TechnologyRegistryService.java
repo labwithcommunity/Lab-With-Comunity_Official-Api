@@ -23,7 +23,6 @@ class TechnologyRegistryService {
         log.info("Technology deleted for user: {}", user.getId());
     }
 
-
     @Transactional
     public UserResponseDto updateTechnologies(Set<UserTechnologyDto> userTechnologyDto, String username) {
         UserEntity user = userService.getUserEntityOrThrow(username);

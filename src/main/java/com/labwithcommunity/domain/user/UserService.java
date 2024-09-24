@@ -28,7 +28,7 @@ class UserService {
             userEntity.setRole("USER");
             userEntity.setTechnologies(UserMapper.mapToTechnologiesSet(userCreateDto.technologies()));
             UserEntity savedUserEntity = userRepository.save(userEntity);
-            log.info("User registered: {}", savedUserEntity.getId());
+            log.info("User registered: {}", savedUserEntity);
             return new UserCreateResponseDto(
                     savedUserEntity.getUsername(),
                     savedUserEntity.getUsername(),

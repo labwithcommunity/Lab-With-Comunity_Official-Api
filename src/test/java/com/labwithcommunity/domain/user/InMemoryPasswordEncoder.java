@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class InMemoryPasswordEncoder implements PasswordEncoder {
     @Override
     public String encode(CharSequence rawPassword) {
-        return "";
+        return "test";
     }
 
     @Override

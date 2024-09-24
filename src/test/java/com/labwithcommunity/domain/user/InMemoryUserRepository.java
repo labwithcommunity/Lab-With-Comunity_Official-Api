@@ -115,6 +115,7 @@ import java.util.function.Function;
         userEntity.setUsername(entity.getNickname());
         userEntity.setEmail(entity.getEmail());
         userEntity.setPassword(entity.getPassword());
+        userEntity.setRole("USER");
         userEntity.setTechnologies(entity.getTechnologies());
         dataBase.put(entity.getNickname(), userEntity);
         return (S) userEntity;

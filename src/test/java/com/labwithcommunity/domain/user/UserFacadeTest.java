@@ -12,23 +12,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserFacadeTest {
+class UserFacadeTest extends UserFacadeTestConfiguration {
 
-    private final UserFacade userFacade = new UserFacade(new UserService(new InMemoryUserRepository(),new InMemoryPasswordEncoder()),
-            new TechnologyRegistryService(new UserService(new InMemoryUserRepository(),new InMemoryPasswordEncoder())));
-    private UserCreateDto userRegisterDto;
-
-    @BeforeEach
-    void setUp() {
-        userRegisterDto = new UserCreateDto("userTest",
-                "password","emailTest"
-                , Set.of(new UserTechnologyDto(ProgrammingLanguage.JAVA,
-                Set.of(TechnologiesForProgrammingLanguage.SPRING, TechnologiesForProgrammingLanguage.HIBERNATE))));
-    }
+    private final UserFacade userFacade = new UserFacade(new UserService(inMemoryUserRepository, new InMemoryPasswordEncoder()),
+            new TechnologyRegistryService(new UserService(inMemoryUserRepository, new InMemoryPasswordEncoder())));
 
     private UserCreateResponseDto registerTestUser() {
         return userFacade.registerUser(userRegisterDto);
@@ -42,14 +34,14 @@ class UserFacadeTest {
         //Then
         assertAll(
                 () -> Assertions.assertNotNull(saveUser),
-                ()-> assertEquals(userRegisterDto.username(), saveUser.nickname()),
-                ()-> assertEquals(userRegisterDto.username(), saveUser.username()),
-                ()-> assertEquals(userRegisterDto.email(), saveUser.email())
+                () -> assertEquals(userRegisterDto.username(), saveUser.nickname()),
+                () -> assertEquals(userRegisterDto.username(), saveUser.username()),
+                () -> assertEquals(userRegisterDto.email(), saveUser.email())
         );
     }
 
     @Test
-    void shouldThrowExceptionWhenTryToSaveWithNicknameAlreadySaved(){
+    void shouldThrowExceptionWhenTryToSaveWithNicknameAlreadySaved() {
         //Given
         UserCreateResponseDto userInDb = registerTestUser();
 
@@ -75,7 +67,7 @@ class UserFacadeTest {
 //    }
 
     @Test
-     void shoudlFindUserWithGivenNicknameSuccessfully() {
+    void shoudlFindUserWithGivenNicknameSuccessfully() {
         //Given
         String nickname = userRegisterDto.username();
         registerTestUser();
@@ -98,5 +90,35 @@ class UserFacadeTest {
         assertEquals(correctNickname, userRegisterDto.username());
         assertThrows(UserNotFoundException.class,
                 () -> userFacade.findUserByUsername(wrongNickname));
+    }
+
+    @Test
+    void shouldAddTechnologyToProgramingLanguageSuccessfully() {
+        //Given
+        registerTestUser();
+        HashSet<TechnologiesForProgrammingLanguage> updateTechnologies = new HashSet<>();
+        updateTechnologies.add(TechnologiesForProgrammingLanguage.SPRING);
+        updateTechnologies.add(TechnologiesForProgrammingLanguage.BACKEND);
+        UserTechnologyDto technologiesUpdate = new UserTechnologyDto(ProgrammingLanguage.JAVA, updateTechnologies);
+
+        //When
+        HashSet<UserTechnologyDto> setOfTechForUpdate = new HashSet<>();
+        setOfTechForUpdate.add(technologiesUpdate);
+
+        UserResponseDto response = userFacade.updateTechnologyOfUser(setOfTechForUpdate,userRegisterDto.username());
+
+        //Then
+        Set<TechnologiesForProgrammingLanguage> userTechnologyForProgrammingLanguages = response.technologies().stream()
+                .filter(tech -> tech.getProgrammingLanguage() == ProgrammingLanguage.JAVA)
+                .findFirst()
+                .orElseThrow()
+                .getUserTechnologyForProgrammingLanguages();
+
+        assertAll(
+                ()->assertEquals(1,response.technologies().size()),
+                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.BACKEND)),
+                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.SPRING)),
+                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.HIBERNATE))
+                );
     }
 }
