@@ -2,20 +2,17 @@ package com.labwithcommunity.infrastructure.user.controller;
 
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @CrossOrigin("*")
-public class UserController {
+class UserController {
 
     private final UserFacade userFacade;
 

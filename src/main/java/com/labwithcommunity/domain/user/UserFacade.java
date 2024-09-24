@@ -4,10 +4,7 @@ import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.enums.UserMemberRoles;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Set;
 
 @RequiredArgsConstructor
 public class UserFacade {

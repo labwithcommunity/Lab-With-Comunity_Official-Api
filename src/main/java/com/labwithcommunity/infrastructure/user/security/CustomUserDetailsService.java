@@ -2,7 +2,6 @@ package com.labwithcommunity.infrastructure.user.security;
 
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
-import com.labwithcommunity.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +13,7 @@ import java.util.Collections;
 
 @Component
 @AllArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+class CustomUserDetailsService implements UserDetailsService {
 
     private final UserFacade userRepository;
 
@@ -24,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return getUser(userByUsername);
     }
 
-    private User getUser(GetLoggedUserDto userDto){
+    private User getUser(GetLoggedUserDto userDto) {
         return new User(
                 userDto.username(),
                 userDto.password(),
