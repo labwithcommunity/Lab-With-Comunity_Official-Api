@@ -3,7 +3,9 @@ package com.labwithcommunity.domain.user;
 
 import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
 import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Embeddable
- public class Technologies {
+  class Technologies {
 
     @Enumerated(EnumType.STRING)
     private ProgrammingLanguage programmingLanguage;

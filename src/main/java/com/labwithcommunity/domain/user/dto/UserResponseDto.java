@@ -1,6 +1,6 @@
 package com.labwithcommunity.domain.user.dto;
 
-import com.labwithcommunity.domain.user.Technologies;
+
 import lombok.Builder;
 
 import java.util.Set;

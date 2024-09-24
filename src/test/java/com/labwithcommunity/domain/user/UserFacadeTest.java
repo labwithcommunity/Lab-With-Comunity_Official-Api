@@ -3,6 +3,9 @@ package com.labwithcommunity.domain.user;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
+import com.labwithcommunity.domain.user.dto.UserTechnologyDto;
+import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
+import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -10,19 +13,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserFacadeTest {
 
-    private UserFacade userFacade = new UserFacade(new UserService(new InMemoryUserRepository(),new InMemoryPasswordEncoder()));
+    private final UserFacade userFacade = new UserFacade(new UserService(new InMemoryUserRepository(),new InMemoryPasswordEncoder()),
+            new TechnologyRegistryService(new UserService(new InMemoryUserRepository(),new InMemoryPasswordEncoder())));
     private UserCreateDto userRegisterDto;
 
     @BeforeEach
     void setUp() {
         userRegisterDto = new UserCreateDto("userTest",
                 "password","emailTest"
-                ,new HashSet<>());
+                , Set.of(new UserTechnologyDto(ProgrammingLanguage.JAVA,
+                Set.of(TechnologiesForProgrammingLanguage.SPRING, TechnologiesForProgrammingLanguage.HIBERNATE))));
     }
 
     private UserCreateResponseDto registerTestUser() {

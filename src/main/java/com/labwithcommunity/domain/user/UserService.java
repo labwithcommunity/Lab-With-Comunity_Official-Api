@@ -4,17 +4,12 @@ import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
-import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -31,7 +26,7 @@ class UserService {
             UserEntity userEntity = UserMapper.mapToUserEntity(userCreateDto);
             userEntity.setPassword(passwordEncoder.encode(userCreateDto.password()));
             userEntity.setRole("USER");
-            userEntity.setTechnologies(userCreateDto.technologies());
+            userEntity.setTechnologies(UserMapper.mapToTechnologiesSet(userCreateDto.technologies()));
             UserEntity savedUserEntity = userRepository.save(userEntity);
             log.info("User registered: {}", savedUserEntity.getId());
             return new UserCreateResponseDto(
@@ -54,16 +49,7 @@ class UserService {
         return UserMapper.mapToUserResponseDto(userEntityOrThrow);
     }
 
-
-    @Transactional
-    public void removeTechnologyFromUser(String username, ProgrammingLanguage programmingLanguage,
-                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
-        UserEntity user = getUserEntityOrThrow(username);
-        user.removeTechnologyFromUser(programmingLanguage, technologyToRemove);
-        log.info("Technology deleted for user: {}", user.getId());
-    }
-
-    private UserEntity getUserEntityOrThrow(String username) {
+     UserEntity getUserEntityOrThrow(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }

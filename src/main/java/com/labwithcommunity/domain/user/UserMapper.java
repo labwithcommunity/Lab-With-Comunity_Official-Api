@@ -26,4 +26,17 @@ class UserMapper {
                                 tech.getUserTechnologyForProgrammingLanguages()
                         )).collect(Collectors.toSet()));
     }
+
+    static Technologies mapToTechnologies(UserTechnologyDto userTechnologyDto) {
+        return new Technologies(
+                userTechnologyDto.getProgrammingLanguage(),
+                userTechnologyDto.getUserTechnologyForProgrammingLanguages()
+        );
+    }
+
+    static Set<Technologies> mapToTechnologiesSet(Set<UserTechnologyDto> userTechnologyDto) {
+        return userTechnologyDto.stream()
+                .map(UserMapper::mapToTechnologies)
+                .collect(Collectors.toSet());
+    }
 }
