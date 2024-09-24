@@ -48,9 +48,8 @@ class UserService {
     private boolean isUsernameExist(String username) {
         return userRepository.existsByUsername(username);
     }
-@Transactional
+
     public UserResponseDto getUserByUsername(String username) {
-        removeTechnologyFromUser(username,ProgrammingLanguage.PYTHON,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE));
         UserEntity userEntityOrThrow = getUserEntityOrThrow(username);
         return UserMapper.mapToUserResponseDto(userEntityOrThrow);
     }
