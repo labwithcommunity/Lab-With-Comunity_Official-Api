@@ -1,6 +1,7 @@
 package com.labwithcommunity.infrastructure.validation;
 
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
+import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,6 +28,13 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserTechnologyNotFoundException.class)
+    public ResponseEntity<Object> handleUserTechnologyNotFoundException(UserTechnologyNotFoundException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);

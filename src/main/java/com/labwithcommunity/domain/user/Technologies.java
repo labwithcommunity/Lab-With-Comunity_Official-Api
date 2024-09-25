@@ -10,18 +10,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Embeddable
-public class Technologies implements Serializable {
+  class Technologies {
 
     @Enumerated(EnumType.STRING)
     private ProgrammingLanguage programmingLanguage;
+    @Enumerated(EnumType.STRING)
     private Set<TechnologiesForProgrammingLanguage> userTechnologyForProgrammingLanguages = new HashSet<>();
+
+    public void removeTechnology(Set<TechnologiesForProgrammingLanguage> technology) {
+        userTechnologyForProgrammingLanguages.removeAll(technology);
+    }
+
+    public boolean isEmpty() {
+        return userTechnologyForProgrammingLanguages.isEmpty();
+    }
 }
 
