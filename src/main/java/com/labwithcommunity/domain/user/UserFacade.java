@@ -1,6 +1,8 @@
 package com.labwithcommunity.domain.user;
 
 import com.labwithcommunity.domain.user.dto.*;
+import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
+import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
@@ -29,5 +31,10 @@ public class UserFacade {
 
     public UserResponseDto updateTechnologyOfUser(Set<UserTechnologyDto> userTechnologyDto, String username){
         return technologyRegistryService.updateTechnologies(userTechnologyDto, username);
+    }
+
+    public void deleteTechnologiesOfUser(String username, ProgrammingLanguage programmingLanguage,
+                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
+        technologyRegistryService.removeTechnologyFromUser(username, programmingLanguage, technologyToRemove);
     }
 }
