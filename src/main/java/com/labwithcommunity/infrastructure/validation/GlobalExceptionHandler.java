@@ -1,7 +1,7 @@
 package com.labwithcommunity.infrastructure.validation;
 
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
-import com.labwithcommunity.domain.user.exception.UserNotFoundException;
+import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @ControllerAdvice
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -29,6 +30,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserTechnologyNotFoundException.class)
+    public ResponseEntity<Object> handleUserTechnologyNotFoundException(UserTechnologyNotFoundException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
