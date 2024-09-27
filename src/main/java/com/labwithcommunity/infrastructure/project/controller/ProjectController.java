@@ -1,5 +1,6 @@
 package com.labwithcommunity.infrastructure.project.controller;
 
+import com.labwithcommunity.domain.project.ProjectFacade;
 import com.labwithcommunity.domain.project.ProjectService;
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
@@ -17,32 +18,32 @@ import java.util.List;
 @RequiredArgsConstructor
 class ProjectController {
 
-    private final ProjectService projectService;
+    private final ProjectFacade projectFacade;
 
     @PostMapping
     ResponseEntity<ProjectFetchDto>createProject(@RequestBody @Valid ProjectCreateDto projectCreateDto
             ,@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
-        ProjectFetchDto project = projectService.createProject(projectCreateDto,username);
+        ProjectFetchDto project = projectFacade.createProject(projectCreateDto,username);
         return ResponseEntity.ok(project);
     }
 
     @GetMapping("/my")
     ResponseEntity<List<ProjectFetchDto>>findProjectByOwner(@AuthenticationPrincipal UserDetails userDetails) {
-        List<ProjectFetchDto> projectByOwner = projectService.getProjectByOwner(userDetails.getUsername());
+        List<ProjectFetchDto> projectByOwner = projectFacade.findProjectByOwner(userDetails.getUsername());
         return ResponseEntity.ok(projectByOwner);
     }
 
     @PostMapping("sub")
     ResponseEntity<Boolean>signToProject(String title, @AuthenticationPrincipal UserDetails userDetails) {
-        projectService.signToProject(title,userDetails.getUsername());
+        projectFacade.signToProject(title,userDetails.getUsername());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     ResponseEntity<List<ProjectFetchDto>>findMyProjects(@AuthenticationPrincipal UserDetails userDetails ) {
         String username = userDetails.getUsername();
-        List<ProjectFetchDto> byUserInProject = projectService.findByUserInProject(username);
+        List<ProjectFetchDto> byUserInProject = projectFacade.findByUserInProject(username);
         return ResponseEntity.ok(byUserInProject);
     }
 }
