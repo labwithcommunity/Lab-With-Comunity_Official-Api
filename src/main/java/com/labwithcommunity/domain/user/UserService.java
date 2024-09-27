@@ -4,6 +4,7 @@ import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
+import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;
@@ -54,9 +55,14 @@ class UserService {
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
-    public GetLoggedUserDto getLoggedUser(String username) {
+    GetLoggedUserDto getLoggedUser(String username) {
         return userRepository.findUsernameAndPasswordByNickname(username)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
+    }
+
+    UserQueryDto getUserQuery(String username) {
+        UserEntity user = getUserEntityOrThrow(username);
+        return UserMapper.mapToQueryDto(user);
     }
 
 //    @Transactional

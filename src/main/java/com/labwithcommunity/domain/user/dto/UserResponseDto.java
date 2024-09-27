@@ -1,8 +1,10 @@
 package com.labwithcommunity.domain.user.dto;
 
 
+import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -11,7 +13,8 @@ public record UserResponseDto(
         String nickname,
         String email,
 //        Set<UserMemberRoles> roles,
-        Set<UserTechnologyDto> technologies
+        Set<UserTechnologyDto> technologies,
+        List<ProjectQueryDto> ownerProjects
 
 ) {
 }

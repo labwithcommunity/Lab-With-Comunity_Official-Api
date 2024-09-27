@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
 import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
 import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
@@ -34,6 +35,10 @@ class UserEntity implements UserDetails {
     @ElementCollection
     private Set<Technologies> technologies = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
+
     public UserEntity(String nickname, String password, String email) {
         this.username = nickname;
         this.nickname = nickname;
@@ -56,6 +61,8 @@ class UserEntity implements UserDetails {
             this.technologies.remove(technologies);
         }
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Embeddable
-  class Technologies {
+class Technologies {
 
     @Enumerated(EnumType.STRING)
     private ProgrammingLanguage programmingLanguage;
