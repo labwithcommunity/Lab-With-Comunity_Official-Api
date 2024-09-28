@@ -11,4 +11,9 @@ class ProjectBeanConfiguration {
     ProjectService projectService(ProjectRepository projectRepository, UserFacade userFacade) {
         return new ProjectService(projectRepository,userFacade);
     }
+
+    @Bean
+    ProjectFacade projectFacade(ProjectService projectService) {
+        return new ProjectFacade(projectService);
+    }
 }
