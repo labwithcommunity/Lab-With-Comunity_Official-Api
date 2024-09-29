@@ -1,7 +1,7 @@
 package com.labwithcommunity.infrastructure.project.controller;
 
 import com.labwithcommunity.domain.project.ProjectFacade;
-import com.labwithcommunity.domain.project.ProjectService;
+import com.labwithcommunity.domain.project.dto.FindProjectsDto;
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
 import jakarta.validation.Valid;
@@ -44,6 +44,12 @@ class ProjectController {
     ResponseEntity<List<ProjectFetchDto>>findMyProjects(@AuthenticationPrincipal UserDetails userDetails ) {
         String username = userDetails.getUsername();
         List<ProjectFetchDto> byUserInProject = projectFacade.findByUserInProject(username);
+        return ResponseEntity.ok(byUserInProject);
+    }
+
+    @GetMapping("/all")
+    ResponseEntity<List<FindProjectsDto>>fetchAll() {
+        List<FindProjectsDto> byUserInProject = projectFacade.fetchAllProjects();
         return ResponseEntity.ok(byUserInProject);
     }
 }

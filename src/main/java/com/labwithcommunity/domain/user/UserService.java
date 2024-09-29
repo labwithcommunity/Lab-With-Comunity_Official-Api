@@ -24,10 +24,7 @@ class UserService {
             throw new UserAlreadyExistsException(UserExceptionMessages.USERNAME_ALREADY_EXIST.getMessage());
         }
         try {
-            UserEntity userEntity = UserMapper.mapToUserEntity(userCreateDto);
-            userEntity.setPassword(passwordEncoder.encode(userCreateDto.password()));
-            userEntity.setRole("USER");
-            userEntity.setTechnologies(UserMapper.mapToTechnologiesSet(userCreateDto.technologies()));
+            UserEntity userEntity = buildUSerEntity(userCreateDto);
             UserEntity savedUserEntity = userRepository.save(userEntity);
             log.info("User registered: {}", savedUserEntity.getId());
             return new UserCreateResponseDto(
@@ -39,6 +36,14 @@ class UserService {
             log.error("Error registering user: {}", exception.getMessage());
             throw exception;
         }
+    }
+
+    private UserEntity buildUSerEntity(UserCreateDto userCreateDto) {
+        UserEntity userEntity = UserMapper.mapToUserEntity(userCreateDto);
+        userEntity.setPassword(passwordEncoder.encode(userCreateDto.password()));
+        userEntity.setRole("USER");
+        userEntity.setTechnologies(UserMapper.mapToTechnologiesSet(userCreateDto.technologies()));
+        return userEntity;
     }
 
     private boolean isUsernameExist(String username) {

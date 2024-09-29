@@ -2,16 +2,11 @@ package com.labwithcommunity.domain.project.dto;
 
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 
-import java.util.Set;
-
-public record ProjectFetchDto(
+public record FindProjectsDto(
         UserQueryDto owner,
         String title,
         String github,
         Double rating,
-        String description,
-        Set<UserQueryDto> participants
-
+        String description
 ) {
-
 }

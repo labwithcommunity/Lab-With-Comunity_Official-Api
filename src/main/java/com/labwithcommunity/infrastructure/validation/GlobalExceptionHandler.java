@@ -1,5 +1,7 @@
 package com.labwithcommunity.infrastructure.validation;
 
+import com.labwithcommunity.domain.project.exception.ProjectTitleAlreadyExistException;
+import com.labwithcommunity.domain.project.exception.UserSignedToProjectException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,20 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ProjectTitleAlreadyExistException.class)
+    public ResponseEntity<Object> handleProjectTitleAlreadyExistException(ProjectTitleAlreadyExistException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserSignedToProjectException.class)
+    public ResponseEntity<Object> handleUserSignedToProjectException(UserSignedToProjectException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);

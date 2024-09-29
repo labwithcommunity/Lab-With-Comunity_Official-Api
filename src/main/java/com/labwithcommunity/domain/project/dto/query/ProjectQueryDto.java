@@ -25,7 +25,4 @@ public class ProjectQueryDto {
     @JoinColumn(name = "owner_id", nullable = false)
     @JsonIgnore
     private UserQueryDto owner;
-
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private Set<UserQueryDto> participants = new HashSet<>();
 }

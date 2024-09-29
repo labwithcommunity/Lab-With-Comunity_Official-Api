@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.project;
 
+import com.labwithcommunity.domain.project.dto.FindProjectsDto;
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,10 @@ public class ProjectFacade {
     }
 
     public List<ProjectFetchDto> findByUserInProject(String username) {
-        return projectService.findByUserInProject(username);
+        return projectService.findByParticipant(username);
+    }
+
+    public List<FindProjectsDto> fetchAllProjects() {
+        return projectService.listAllProjects();
     }
 }

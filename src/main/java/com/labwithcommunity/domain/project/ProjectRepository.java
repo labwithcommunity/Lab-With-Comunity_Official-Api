@@ -11,11 +11,9 @@ interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     Optional<List<ProjectEntity>> findAllByOwner(UserQueryDto owner);
 
-    @Query("SELECT p FROM ProjectEntity p WHERE p.owner = :user OR :user MEMBER OF p.participants")
-    List<ProjectEntity> findProjectsByParticipantOrOwner(UserQueryDto user);
-
-
-
+    @Query("SELECT p FROM ProjectEntity p JOIN p.participants part WHERE part = :user")
+    Optional<List<ProjectEntity>> findProjectsByParticipant(UserQueryDto user);
     ProjectEntity findByTitle(String title);
-
+    boolean existsByTitle(String title);
+    boolean existsByParticipantsContaining(UserQueryDto user);
 }

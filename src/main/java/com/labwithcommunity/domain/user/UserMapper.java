@@ -1,6 +1,5 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
 import com.labwithcommunity.domain.user.dto.UserTechnologyDto;
