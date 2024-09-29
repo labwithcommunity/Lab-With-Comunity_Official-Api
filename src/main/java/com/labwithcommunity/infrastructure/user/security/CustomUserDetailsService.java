@@ -14,7 +14,7 @@ import java.util.Collections;
 
 @Component
 @AllArgsConstructor
-class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserFacade userRepository;
 

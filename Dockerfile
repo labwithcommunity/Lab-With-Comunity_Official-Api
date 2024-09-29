@@ -8,4 +8,4 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/*.jar labwithcommunity.jar
 EXPOSE 8080
-CMD ["java", "-jar", "labwithcommunity.jar"]
+CMD ["java", "-jar", "/app/labwithcommunity.jar"]
