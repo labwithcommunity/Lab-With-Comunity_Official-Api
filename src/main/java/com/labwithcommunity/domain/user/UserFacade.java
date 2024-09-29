@@ -1,6 +1,7 @@
 package com.labwithcommunity.domain.user;
 
 import com.labwithcommunity.domain.user.dto.*;
+import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
 import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,9 @@ public class UserFacade {
     public void deleteTechnologiesOfUser(String username, ProgrammingLanguage programmingLanguage,
                                          Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
         technologyRegistryService.removeTechnologyFromUser(username, programmingLanguage, technologyToRemove);
+    }
+
+    public UserQueryDto getQueryUser(String username) {
+        return userService.getUserQuery(username);
     }
 }

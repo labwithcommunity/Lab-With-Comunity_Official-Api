@@ -4,6 +4,7 @@ import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
+import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
 import com.labwithcommunity.domain.user.exception.UserNotFoundException;
@@ -23,10 +24,7 @@ class UserService {
             throw new UserAlreadyExistsException(UserExceptionMessages.USERNAME_ALREADY_EXIST.getMessage());
         }
         try {
-            UserEntity userEntity = UserMapper.mapToUserEntity(userCreateDto);
-            userEntity.setPassword(passwordEncoder.encode(userCreateDto.password()));
-            userEntity.setRole("USER");
-            userEntity.setTechnologies(UserMapper.mapToTechnologiesSet(userCreateDto.technologies()));
+            UserEntity userEntity = buildUSerEntity(userCreateDto);
             UserEntity savedUserEntity = userRepository.save(userEntity);
             log.info("User registered: {}", savedUserEntity.getId());
             return new UserCreateResponseDto(
@@ -38,6 +36,14 @@ class UserService {
             log.error("Error registering user: {}", exception.getMessage());
             throw exception;
         }
+    }
+
+    private UserEntity buildUSerEntity(UserCreateDto userCreateDto) {
+        UserEntity userEntity = UserMapper.mapToUserEntity(userCreateDto);
+        userEntity.setPassword(passwordEncoder.encode(userCreateDto.password()));
+        userEntity.setRole("USER");
+        userEntity.setTechnologies(UserMapper.mapToTechnologiesSet(userCreateDto.technologies()));
+        return userEntity;
     }
 
     private boolean isUsernameExist(String username) {
@@ -54,9 +60,14 @@ class UserService {
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
-    public GetLoggedUserDto getLoggedUser(String username) {
+    GetLoggedUserDto getLoggedUser(String username) {
         return userRepository.findUsernameAndPasswordByNickname(username)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
+    }
+
+    UserQueryDto getUserQuery(String username) {
+        UserEntity user = getUserEntityOrThrow(username);
+        return UserMapper.mapToQueryDto(user);
     }
 
 //    @Transactional
