@@ -1,5 +1,6 @@
 package com.labwithcommunity.infrastructure.validation;
 
+import com.labwithcommunity.domain.project.exception.ProjectNotFoundException;
 import com.labwithcommunity.domain.project.exception.ProjectTitleAlreadyExistException;
 import com.labwithcommunity.domain.project.exception.UserSignedToProjectException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
@@ -53,6 +54,12 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(UserTechnologyNotFoundException.class)
     public ResponseEntity<Object> handleUserTechnologyNotFoundException(UserTechnologyNotFoundException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);

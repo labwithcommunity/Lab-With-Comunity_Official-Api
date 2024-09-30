@@ -34,9 +34,9 @@ class ProjectController {
         return ResponseEntity.ok(projectByOwner);
     }
 
-    @PostMapping("sub")
-    ResponseEntity<Boolean>signToProject(String title, @AuthenticationPrincipal UserDetails userDetails) {
-        projectFacade.signToProject(title,userDetails.getUsername());
+    @PostMapping("sub/{id}")
+    ResponseEntity<Boolean>signToProject(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        projectFacade.signToProject(id,userDetails.getUsername());
         return ResponseEntity.ok().build();
     }
 
