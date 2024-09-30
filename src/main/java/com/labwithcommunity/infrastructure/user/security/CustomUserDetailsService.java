@@ -2,7 +2,6 @@ package com.labwithcommunity.infrastructure.user.security;
 
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
-
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

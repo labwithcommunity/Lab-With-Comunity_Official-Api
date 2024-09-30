@@ -8,17 +8,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class UserBeanConfiguration {
 
     @Bean
-     UserService userService(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
-        return new UserService(userRepository, passwordEncoder);
+    TechnologyRegistryService technologyRegistryService(UserRepository userRepository) {
+        UserFinderService userFinderService = new UserFinderService(userRepository);
+        return new TechnologyRegistryService(userFinderService);
     }
 
     @Bean
-    TechnologyRegistryService technologyRegistryService(UserService userService) {
-        return new TechnologyRegistryService(userService);
+    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder,TechnologyRegistryService technologyRegistryService) {
+        UserFinderService userFinderService = new UserFinderService(userRepository);
+        UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository,passwordEncoder);
+        return new UserFacade(userRegistrationService,userFinderService,technologyRegistryService);
     }
 
     @Bean
-    UserFacade userFacade(UserService userService, TechnologyRegistryService technologyRegistryService) {
-        return new UserFacade(userService,technologyRegistryService);
+    UserRegistration userRegistrationService(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
+        return new UserRegistrationService(userRepository, passwordEncoder);
     }
 }
