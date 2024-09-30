@@ -3,10 +3,7 @@ package com.labwithcommunity.domain.project;
 import com.labwithcommunity.domain.project.dto.FindProjectsDto;
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
-import com.labwithcommunity.domain.project.exception.ProjectExceptionMessages;
-import com.labwithcommunity.domain.project.exception.ProjectNotFoundException;
-import com.labwithcommunity.domain.project.exception.ProjectTitleAlreadyExistException;
-import com.labwithcommunity.domain.project.exception.UserSignedToProjectException;
+import com.labwithcommunity.domain.project.exception.*;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -54,17 +52,21 @@ class ProjectService {
     }
 
     @Transactional
-    public void signToProject(String title, String username) {
+    public void signToProject(Long id, String username) {
         UserQueryDto user = fetchUserInfo(username);
-        isUSerSignedToProject(user);
-        ProjectEntity byTitle = projectRepository.findByTitle(title);
-        byTitle.getParticipants().add(user);
+        validateUserProjectAssignment(user, id);
+        Optional<ProjectEntity> projectOpt = projectRepository.findById(id);
+        projectOpt.ifPresent(project -> project.getParticipants().add(user));
     }
 
-    private void isUSerSignedToProject(UserQueryDto user) {
-        if (projectRepository.existsByParticipantsContaining(user)) {
+    private void validateUserProjectAssignment(UserQueryDto user, Long id) {
+        if (projectRepository.existsByParticipantsContainingAndId(user, id)) {
             throw new UserSignedToProjectException(
                     ProjectExceptionMessages.USER_ALREADY_SIGNED_TO_PROJECT.getMessage());
+        }
+        if(!projectRepository.existsById(id)){
+            throw new ProjectNotFoundException(
+                    ProjectExceptionMessages.PROJECT_ID_NOT_FOUND.getMessage());
         }
     }
 

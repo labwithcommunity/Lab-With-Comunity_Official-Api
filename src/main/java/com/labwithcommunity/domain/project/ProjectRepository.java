@@ -13,7 +13,8 @@ interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     @Query("SELECT p FROM ProjectEntity p JOIN p.participants part WHERE part = :user")
     Optional<List<ProjectEntity>> findProjectsByParticipant(UserQueryDto user);
-    ProjectEntity findByTitle(String title);
+    Optional<ProjectEntity> findById(Long Id);
     boolean existsByTitle(String title);
-    boolean existsByParticipantsContaining(UserQueryDto user);
+    boolean existsByParticipantsContainingAndId(UserQueryDto user, Long id);
+    boolean existsById(Long id);
 }

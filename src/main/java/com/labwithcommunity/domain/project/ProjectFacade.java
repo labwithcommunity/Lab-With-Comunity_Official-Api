@@ -21,8 +21,8 @@ public class ProjectFacade {
         return projectService.createProject(projectCreateDto, username);
     }
 
-    public void signToProject(String projectName, String username) {
-        projectService.signToProject(projectName, username);
+    public void signToProject(Long id, String username) {
+        projectService.signToProject(id, username);
     }
 
     public List<ProjectFetchDto> findByUserInProject(String username) {
