@@ -18,8 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserFacadeTest extends UserFacadeTestConfiguration {
 
-    private final UserFacade userFacade = new UserFacade(new UserService(inMemoryUserRepository, new InMemoryPasswordEncoder()),
-            new TechnologyRegistryService(new UserService(inMemoryUserRepository, new InMemoryPasswordEncoder())));
+    private final UserFacade userFacade = new UserFacade(new UserRegistrationService(inMemoryUserRepository, new InMemoryPasswordEncoder()),
+            new UserFinderService(inMemoryUserRepository),
+            new TechnologyRegistryService(new UserFinderService(inMemoryUserRepository)));
 
     private UserCreateResponseDto registerTestUser() {
         return userFacade.registerUser(userRegisterDto);

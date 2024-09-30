@@ -13,19 +13,19 @@ import java.util.Set;
 @Slf4j
 class TechnologyRegistryService {
 
-    private final UserService userService;
+    private final UserFinder userService;
 
     @Transactional
     public void removeTechnologyFromUser(String username, ProgrammingLanguage programmingLanguage,
                                          Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
-        UserEntity user = userService.getUserEntityOrThrow(username);
+        UserEntity user = userService.getUserEntity(username);
         user.removeTechnologyFromUser(programmingLanguage, technologyToRemove);
         log.info("Technology deleted for user: {}", user.getId());
     }
 
     @Transactional
     public UserResponseDto updateTechnologies(Set<UserTechnologyDto> userTechnologyDto, String username) {
-        UserEntity user = userService.getUserEntityOrThrow(username);
+        UserEntity user = userService.getUserEntity(username);
         Set<Technologies> existingTechnologies = user.getTechnologies();
         for (UserTechnologyDto technologyDto : userTechnologyDto) {
             Technologies newTechnology = new Technologies(

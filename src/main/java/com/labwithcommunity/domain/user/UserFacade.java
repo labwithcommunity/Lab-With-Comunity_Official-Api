@@ -11,23 +11,24 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserFacade {
 
-    private final UserService userService;
+    private final UserRegistration userRegistration;
+    private final UserFinder userFinder;
     private final TechnologyRegistryService technologyRegistryService;
 
     public UserResponseDto findUserByUsername(String username) {
-        return userService.getUserByUsername(username);
+        return userFinder.findUserByUsername(username);
     }
 
     public UserCreateResponseDto registerUser(UserCreateDto userCreateDto) {
-        return userService.register(userCreateDto);
+        return userRegistration.register(userCreateDto);
     }
 
     public GetLoggedUserDto getLoggedUser(String username) {
-        return userService.getLoggedUser(username);
+        return userFinder.getLoggedUser(username);
     }
 
 //    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String username){
-//        return userService.addRoleToUser(userMemberRoles, username);
+//        return userRegistration.addRoleToUser(userMemberRoles, username);
 //    }
 
     public UserResponseDto updateTechnologyOfUser(Set<UserTechnologyDto> userTechnologyDto, String username){
@@ -40,6 +41,6 @@ public class UserFacade {
     }
 
     public UserQueryDto getQueryUser(String username) {
-        return userService.getUserQuery(username);
+        return userFinder.getUserQuery(username);
     }
 }
