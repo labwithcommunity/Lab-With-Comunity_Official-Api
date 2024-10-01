@@ -8,9 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashSet;
 
-class UserFacadeTestConfiguration {
+ public class UserFacadeTestConfiguration {
 
     InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
+    public final UserFacade userFacade = new UserFacade(new UserRegistrationService(inMemoryUserRepository, new InMemoryPasswordEncoder()),
+             new UserFinderService(inMemoryUserRepository),
+             new TechnologyRegistryService(new UserFinderService(inMemoryUserRepository)));
+
     UserCreateDto userRegisterDto;
     UserCreateDto userRegisterDtoWithTwoTechnologies;
     HashSet<UserTechnologyDto> setOfTechDto = new HashSet<>();
