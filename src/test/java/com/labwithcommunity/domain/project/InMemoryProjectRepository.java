@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 
 class InMemoryProjectRepository implements ProjectRepository {
@@ -87,10 +88,18 @@ class InMemoryProjectRepository implements ProjectRepository {
         return false;
     }
 
+    private final AtomicLong idGenerator = new AtomicLong(1);
+
     @Override
-    public ProjectEntity save(ProjectEntity entity) {
-        database.put(entity.getId(), entity);
-        return entity;
+    public <S extends ProjectEntity> S save(S entity) {
+        ProjectEntity newEntity = new ProjectEntity();
+        long projectId = idGenerator.getAndIncrement();
+        newEntity.setId(projectId);
+        newEntity.setTitle(entity.getTitle());
+        newEntity.setDescription(entity.getDescription());
+        newEntity.setOwner(entity.getOwner());
+        database.put(projectId, entity);
+        return (S) entity;
     }
 
     @Override
@@ -100,7 +109,7 @@ class InMemoryProjectRepository implements ProjectRepository {
 
     @Override
     public List<ProjectEntity> findAll() {
-        return new ArrayList<>(database.values());
+        return database.values().stream().toList();
     }
 
     @Override
