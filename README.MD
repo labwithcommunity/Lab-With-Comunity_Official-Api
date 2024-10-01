@@ -33,17 +33,12 @@ Lab With Community is a Spring Boot application that provides an API for managin
    cd Lab-With-Comunity_Official-Api
    ```
 
-2. Build the application and database images using Docker Compose:
+2. Build and start the application along with the database using Docker Compose:
    ```
-   docker-compose build
-   ```
-
-3. Start the application and database using Docker Compose:
-   ```
-   docker-compose up -d
+   docker compose up --build
    ```
 
-4. The application should now be running at `http://localhost:8080`
+3. The application should now be running at `http://localhost:8080`
 
 ### API Documentation
 Once the application is running, you can access the OpenAPI documentation at:
