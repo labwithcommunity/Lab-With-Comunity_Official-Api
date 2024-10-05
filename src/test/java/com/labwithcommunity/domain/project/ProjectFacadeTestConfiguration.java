@@ -2,7 +2,6 @@ package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.user.UserFacadeTestConfiguration;
-import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 
 public class ProjectFacadeTestConfiguration extends UserFacadeTestConfiguration {
@@ -21,7 +20,7 @@ public class ProjectFacadeTestConfiguration extends UserFacadeTestConfiguration 
 
     @BeforeEach
     public void setup() {
-        UserCreateResponseDto userCreateResponseDto = registerTestUser();
+        registerTestUser();
         registerTestUserWithTwoTechnologies();
         projectCreateDto =new ProjectCreateDto("TestTitle","testDescription","git@git.com");
         projectCreateDto2 =new ProjectCreateDto("TestTitle2","testDescription2","git@git.com2");

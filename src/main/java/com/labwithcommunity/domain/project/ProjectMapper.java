@@ -12,9 +12,9 @@ class ProjectMapper {
         return new ProjectFetchDto(
                 projectEntity.getOwner(),
                 projectEntity.getTitle(),
+                projectEntity.getDescription(),
                 projectEntity.getGithub(),
                 projectEntity.getRating(),
-                projectEntity.getDescription(),
                 projectEntity.getParticipants()
         );
     }

@@ -16,7 +16,8 @@ class ProjectFacadeTest extends ProjectFacadeTestConfiguration {
     @Test
     void shouldCreateFirstProjectSuccessfully() {
         //Given
-        ProjectCreateDto projectRequest = new ProjectCreateDto("TestTitle", "testDescription", "git@git.com");
+        ProjectCreateDto projectRequest = new ProjectCreateDto("TestTitle",
+                "testDescriptionfirst", "gitt@git.com");
 
         //When
         ProjectFetchDto userTest = projectFacade.createProject(projectRequest, "userTest");
@@ -26,7 +27,7 @@ class ProjectFacadeTest extends ProjectFacadeTestConfiguration {
                 () -> assertNotNull(userTest),
                 () -> assertThat(userTest.owner()).isNotNull(),
                 () -> assertThat(userTest.title()).isEqualTo(projectRequest.title()),
-                () -> assertThat(userTest.description()).isEqualTo(projectRequest.description()),
+                () -> assertThat(projectRequest.description() ).isEqualTo(userTest.description()),
                 () -> assertThat(userTest.github()).isEqualTo(projectRequest.github()),
                 () -> assertEquals(1, inMemoryProjectRepository.findAll().size())
         );

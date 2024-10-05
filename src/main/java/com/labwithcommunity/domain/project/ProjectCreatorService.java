@@ -30,8 +30,8 @@ class ProjectCreatorService implements ProjectCreator {
     private static ProjectEntity buildProjectEntity(ProjectCreateDto projectCreateDTO, UserQueryDto owner) {
         return new ProjectEntity(
                 projectCreateDTO.title(),
-                projectCreateDTO.description(),
                 projectCreateDTO.github(),
+                projectCreateDTO.description(),
                 owner);
     }
 
@@ -41,6 +41,4 @@ class ProjectCreatorService implements ProjectCreator {
                     ProjectExceptionMessages.PROJECT_WITH_GIVEN_TITLE_ALREADY_EXISTS.getMessage());
         }
     }
-
-
 }

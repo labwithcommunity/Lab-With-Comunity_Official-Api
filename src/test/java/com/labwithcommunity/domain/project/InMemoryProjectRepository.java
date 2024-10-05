@@ -94,11 +94,12 @@ class InMemoryProjectRepository implements ProjectRepository {
     public <S extends ProjectEntity> S save(S entity) {
         ProjectEntity newEntity = new ProjectEntity();
         long projectId = idGenerator.getAndIncrement();
-        newEntity.setId(projectId);
+        entity.setId(projectId);
+        newEntity.setOwner(entity.getOwner());
         newEntity.setTitle(entity.getTitle());
         newEntity.setDescription(entity.getDescription());
-        newEntity.setOwner(entity.getOwner());
-        database.put(projectId, entity);
+        newEntity.setGithub(entity.getGithub());
+        database.put(projectId, newEntity);
         return (S) entity;
     }
 
@@ -211,6 +212,4 @@ class InMemoryProjectRepository implements ProjectRepository {
     public Page<ProjectEntity> findAll(Pageable pageable) {
         return null;
     }
-
-    // Pozostałe metody implementacji
 }
