@@ -8,12 +8,9 @@ import org.springframework.context.annotation.Configuration;
 class ProjectBeanConfiguration {
 
     @Bean
-    ProjectService projectService(ProjectRepository projectRepository, UserFacade userFacade) {
-        return new ProjectService(projectRepository,userFacade);
-    }
-
-    @Bean
-    ProjectFacade projectFacade(ProjectService projectService) {
-        return new ProjectFacade(projectService);
+    ProjectFacade projectFacade(ProjectRepository projectRepository, UserFacade userFacade) {
+        ProjectFinderService projectFinderService = new ProjectFinderService(projectRepository,userFacade);
+        ProjectCreatorService projectCreatorService = new ProjectCreatorService(projectRepository,userFacade);
+        return new ProjectFacade(projectFinderService,projectCreatorService);
     }
 }

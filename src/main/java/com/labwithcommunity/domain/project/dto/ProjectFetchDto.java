@@ -7,9 +7,9 @@ import java.util.Set;
 public record ProjectFetchDto(
         UserQueryDto owner,
         String title,
+        String description,
         String github,
         Double rating,
-        String description,
         Set<UserQueryDto> participants
 
 ) {
