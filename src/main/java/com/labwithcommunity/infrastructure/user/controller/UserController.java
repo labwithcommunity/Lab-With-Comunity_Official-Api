@@ -2,7 +2,6 @@ package com.labwithcommunity.infrastructure.user.controller;
 
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.dto.UserTechnologyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,14 +31,14 @@ class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    @PutMapping("/technologies")
-    public ResponseEntity<UserResponseDto> updateTechnologies(
-            @AuthenticationPrincipal UserDetails principal,
-            @RequestBody Set<UserTechnologyDto> userTechnologyDto) {
-        String username = principal.getUsername();
-        UserResponseDto updatedUserResponseDto = userFacade.updateTechnologyOfUser(userTechnologyDto, username);
-        return ResponseEntity.ok(updatedUserResponseDto);
-    }
+//    @PutMapping("/technologies")
+//    public ResponseEntity<UserResponseDto> updateTechnologies(
+//            @AuthenticationPrincipal UserDetails principal,
+//            @RequestBody Set<UserTechnologyDto> userTechnologyDto) {
+//        String username = principal.getUsername();
+//        UserResponseDto updatedUserResponseDto = userFacade.updateTechnologyOfUser(userTechnologyDto, username);
+//        return ResponseEntity.ok(updatedUserResponseDto);
+//    }
 
 //    @PutMapping("/role")
 //    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String username, @RequestBody Set<UserMemberRoles> role) {

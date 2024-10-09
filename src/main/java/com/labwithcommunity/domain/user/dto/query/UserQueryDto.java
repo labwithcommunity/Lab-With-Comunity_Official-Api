@@ -21,13 +21,13 @@ public class UserQueryDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
     private String nickname;
     private String email;
     //    private Set<UserMemberRoles> roles = new HashSet<>();
 
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonBackReference
-    private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
 }

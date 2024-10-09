@@ -26,10 +26,10 @@ class ProjectEntity {
     private String description;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", nullable = false)
-    @EqualsAndHashCode.Exclude
-    private UserQueryDto owner;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "owner_id", nullable = false)
+//    @EqualsAndHashCode.Exclude
+//    private UserQueryDto owner;
 
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
@@ -40,6 +40,6 @@ class ProjectEntity {
         this.github = github;
         this.description = description;
         this.rating = 0.0;
-        this.owner = owner;
+//        this.owner = owner;
     }
 }

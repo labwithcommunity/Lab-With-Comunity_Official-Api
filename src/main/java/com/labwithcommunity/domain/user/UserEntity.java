@@ -1,39 +1,42 @@
 package com.labwithcommunity.domain.user;
 
 import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
-import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
-import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
-import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
-import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
+
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
 @NoArgsConstructor
 @Data
 @Table(name = "users")
+@AllArgsConstructor
+@Builder
 class UserEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
     private String username;
     private String nickname;
     private String password;
     private String email;
-    //    private Set<UserMemberRoles> roles = new HashSet<>();
-    private String role;
+    private boolean isAdmin;
+    private boolean isApproved;
+    private boolean isLocked;
+    private LocalDateTime createdAt;
+    private LocalDateTime lastLogin;
 
-    @EqualsAndHashCode.Exclude
-    @ElementCollection
-    private Set<Technologies> technologies = new HashSet<>();
+
+//    @EqualsAndHashCode.Exclude
+//    @ElementCollection
+//    private Set<Technologies> technologies = new HashSet<>();
 
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -46,27 +49,29 @@ class UserEntity implements UserDetails {
         this.email = email;
     }
 
-    public void removeTechnologyFromUser(ProgrammingLanguage programmingLanguage,
-                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
-        Technologies technologies = this.technologies.stream()
-                .filter(t -> t.getProgrammingLanguage().equals(programmingLanguage))
-                .findFirst()
-                .orElseThrow(() -> new UserTechnologyNotFoundException(UserExceptionMessages.TECHNOLOGY_NOT_FOUND.getMessage()));
-        technologies.removeTechnology(technologyToRemove);
-        isTechnologyEmpty(technologies);
-    }
-
-    private void isTechnologyEmpty(Technologies technologies) {
-        if (technologies.isEmpty()) {
-            this.technologies.remove(technologies);
-        }
-    }
-
+//    public void removeTechnologyFromUser(ProgrammingLanguage programmingLanguage,
+//                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
+//        Technologies technologies = this.technologies.stream()
+//                .filter(t -> t.getProgrammingLanguage().equals(programmingLanguage))
+//                .findFirst()
+//                .orElseThrow(() -> new UserTechnologyNotFoundException(UserExceptionMessages.TECHNOLOGY_NOT_FOUND.getMessage()));
+//        technologies.removeTechnology(technologyToRemove);
+//        isTechnologyEmpty(technologies);
+//    }
+//
+//    private void isTechnologyEmpty(Technologies technologies) {
+//        if (technologies.isEmpty()) {
+//            this.technologies.remove(technologies);
+//        }
+//    }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        if (isAdmin) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
