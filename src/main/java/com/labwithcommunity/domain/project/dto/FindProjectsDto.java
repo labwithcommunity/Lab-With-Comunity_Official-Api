@@ -6,7 +6,6 @@ public record FindProjectsDto(
         UserQueryDto owner,
         String title,
         String github,
-        Double rating,
         String description
 ) {
 }

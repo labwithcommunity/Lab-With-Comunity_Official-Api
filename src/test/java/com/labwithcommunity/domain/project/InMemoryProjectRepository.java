@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.FluentQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -19,10 +20,10 @@ class InMemoryProjectRepository implements ProjectRepository {
     ConcurrentHashMap<Long, ProjectEntity> database = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<List<ProjectEntity>> findAllByOwner(UserQueryDto owner) {
+    public Optional<List<ProjectEntity>> findAllByCreatorid(UUID creatorId) {
         List<ProjectEntity> projects = new ArrayList<>();
         for (ProjectEntity project : database.values()) {
-            if (project.getOwner().equals(owner)) {
+            if (project.getOwner().equals(creator)) {
                 projects.add(project);
             }
         }
@@ -41,9 +42,9 @@ class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public boolean existsByTitle(String title) {
+    public boolean existsByName(String title) {
         return database.values().stream()
-                .anyMatch(project -> project.getTitle().equals(title));
+                .anyMatch(project -> project.getName().equals(title));
     }
 
     @Override
@@ -96,9 +97,9 @@ class InMemoryProjectRepository implements ProjectRepository {
         long projectId = idGenerator.getAndIncrement();
         entity.setId(projectId);
         newEntity.setOwner(entity.getOwner());
-        newEntity.setTitle(entity.getTitle());
+        newEntity.setName(entity.getName());
         newEntity.setDescription(entity.getDescription());
-        newEntity.setGithub(entity.getGithub());
+        newEntity.setWebsite(entity.getWebsite());
         database.put(projectId, newEntity);
         return (S) entity;
     }

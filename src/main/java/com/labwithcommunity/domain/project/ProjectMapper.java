@@ -8,31 +8,35 @@ import java.util.stream.Collectors;
 
 class ProjectMapper {
 
-    static ProjectFetchDto mapToProjectFetchDto(ProjectEntity projectEntity) {
+    static ProjectFetchDto mapToProjectFetchDto(ProjectEntity projectEntity, String creator) {
         return new ProjectFetchDto(
-                projectEntity.getOwner(),
-                projectEntity.getTitle(),
+                projectEntity.getId(),
+                projectEntity.getName(),
                 projectEntity.getDescription(),
-                projectEntity.getGithub(),
-                projectEntity.getRating(),
-                projectEntity.getParticipants()
+                projectEntity.getCreated(),
+                creator,
+                projectEntity.getMethodology().getMethodologyName(),
+                projectEntity.getLicence().getName(),
+                projectEntity.getWebsite(),
+                projectEntity.getWiki(),
+                projectEntity.getWiki()
+
         );
     }
 
-    static List<FindProjectsDto> mapToProjectFindAllDto(List<ProjectEntity> projectEntity) {
-        return projectEntity.stream()
-                .map(project-> new FindProjectsDto(
-                        project.getOwner(),
-                        project.getTitle(),
-                        project.getGithub(),
-                        project.getRating(),
-                        project.getDescription()
-                )).toList();
-    }
+//    static List<FindProjectsDto> mapToProjectFindAllDto(List<ProjectEntity> projectEntity) {
+//        return projectEntity.stream()
+//                .map(project-> new FindProjectsDto(
+//                        project.getCreator(),
+//                        project.getName(),
+//                        project.getWebsite(),
+//                        project.getDescription()
+//                )).toList();
+//    }
 
-    static List<ProjectFetchDto> mapToProjectFetchDtoList(List<ProjectEntity> projectEntities) {
-        return projectEntities.stream()
-                .map(ProjectMapper::mapToProjectFetchDto)
-                .collect(Collectors.toList());
-    }
+//    static List<ProjectFetchDto> mapToProjectFetchDtoList(List<ProjectEntity> projectEntities, String creator) {
+//        return projectEntities.stream()
+//                .map(ProjectMapper::mapToProjectFetchDto)
+//                .collect(Collectors.toList());
+//    }
 }

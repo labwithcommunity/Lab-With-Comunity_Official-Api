@@ -1,16 +1,18 @@
 package com.labwithcommunity.domain.project.dto;
 
-import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
-
-import java.util.Set;
+import java.time.LocalDateTime;
 
 public record ProjectFetchDto(
-        UserQueryDto owner,
-        String title,
+        Long id,
+        String name,
         String description,
-        String github,
-        Double rating,
-        Set<UserQueryDto> participants
+        LocalDateTime created,
+        String creator,
+        String website,
+        String wiki,
+        String tracking,
+        String methodology,
+        String licence
 
 ) {
 

@@ -7,52 +7,55 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
-@Entity
+@Entity @Table(name = "projects")
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Table(name = "projects")
 class ProjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String github;
-    private Double rating;
+    private String name;
     private String description;
-
-    //todo
-    /*
-    "id": 1,
-    "name": "Projekt 1",
-    "description": "Opis projektu 1",
-    "created": "2022-01-01 12:00:00",
-    "creator": "username",
-    "methodology": "Extreme Programming",
-    "license": "MIT",
-    "website": "https://example.com/project1",
-    "wiki": "https://example.com/project1/wiki",
-    "tracking": "https://example.com/project1/tracking"
-     */
+    private LocalDateTime created;
+    private String website;
+    private String wiki;
+    private String tracking;
+    private UUID creatorid;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "methodology_id")
     @EqualsAndHashCode.Exclude
-    private UserQueryDto owner;
+    private MethodologyEntity methodology;
 
-    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "licence_id")
+    @EqualsAndHashCode.Exclude
+    private LicenceEntity licence;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private Set<UserQueryDto> participants = new HashSet<>();
 
-    public ProjectEntity(String title, String github, String description, UserQueryDto owner) {
-        this.title = title;
-        this.github = github;
+    public ProjectEntity(String name,String description,
+                         MethodologyEntity methodology,
+                         LicenceEntity licence,
+                          String website, String wiki,
+                         String tracking,  UUID creator) {
+        this.name = name;
         this.description = description;
-        this.rating = 0.0;
-        this.owner = owner;
+        this.website = website;
+        this.wiki = wiki;
+        this.tracking = tracking;
+        this.methodology = methodology;
+        this.licence = licence;
+        this.creatorid = creator;
+        this.created = LocalDateTime.now();
     }
 }

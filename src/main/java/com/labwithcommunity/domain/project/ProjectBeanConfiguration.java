@@ -8,9 +8,15 @@ import org.springframework.context.annotation.Configuration;
 class ProjectBeanConfiguration {
 
     @Bean
-    ProjectFacade projectFacade(ProjectRepository projectRepository, UserFacade userFacade) {
+    ProjectFacade projectFacade(ProjectRepository projectRepository, UserFacade userFacade,
+                                LicenceRepository licenceRepository,
+                                MethodologyRepository methodologyRepository) {
         ProjectFinderService projectFinderService = new ProjectFinderService(projectRepository,userFacade);
-        ProjectCreatorService projectCreatorService = new ProjectCreatorService(projectRepository,userFacade);
+        LicenceService licenceService = new LicenceService(licenceRepository);
+        MethodologyService methodologyService = new MethodologyService(methodologyRepository);
+        ProjectCreatorService projectCreatorService = new ProjectCreatorService(projectRepository,
+                licenceService,methodologyService,userFacade);
         return new ProjectFacade(projectFinderService,projectCreatorService);
     }
+
 }
