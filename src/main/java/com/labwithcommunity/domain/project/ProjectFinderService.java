@@ -22,7 +22,7 @@ class ProjectFinderService implements ProjectFinder {
     @Override
     public List<ProjectFetchDto> getProjectByOwner(String owner) {
         UserQueryDto queryUser = userFacade.getQueryUser(owner);
-        List<ProjectEntity> projectEntities = projectRepository.findAllByCreatorid(queryUser.getId())
+        List<ProjectEntity> projectEntities = projectRepository.findAllByCreatorid(queryUser)
                 .orElseThrow(() -> new ProjectNotFoundException(
                         ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
                // ProjectMapper.mapToProjectFetchDtoList(projectEntities);
@@ -67,9 +67,8 @@ class ProjectFinderService implements ProjectFinder {
     }
 
     @Override
-    public List<FindProjectsDto> listAllProjects() {
+    public List<ProjectFetchDto> listAllProjects() {
         List<ProjectEntity> allProjects = projectRepository.findAll();
-               // ProjectMapper.mapToProjectFindAllDto(allProjects);
-        return null;
+        return ProjectMapper.mapToProjectFetchDtoList(allProjects);
     }
 }

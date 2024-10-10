@@ -10,5 +10,5 @@ interface ProjectFinder {
     List<ProjectFetchDto> getProjectByOwner(String owner);
     void signToProject(Long id, String username);
     List<ProjectFetchDto> findByParticipant(String username);
-    List<FindProjectsDto> listAllProjects();
+    List<ProjectFetchDto> listAllProjects();
 }

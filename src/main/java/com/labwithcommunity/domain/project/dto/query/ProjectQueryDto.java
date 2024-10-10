@@ -21,7 +21,7 @@ public class ProjectQueryDto {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", nullable = false)
+   // @JoinColumn(name = "owner_id", nullable = false)
     @JsonIgnore
     private UserQueryDto owner;
 }

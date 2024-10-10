@@ -21,7 +21,7 @@ public class UserQueryDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
     private String nickname;
     private String email;
     //    private Set<UserMemberRoles> roles = new HashSet<>();

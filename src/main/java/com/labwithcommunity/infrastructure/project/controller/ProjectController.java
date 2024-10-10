@@ -48,8 +48,8 @@ class ProjectController {
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<FindProjectsDto>>fetchAll() {
-        List<FindProjectsDto> byUserInProject = projectFacade.fetchAllProjects();
+    ResponseEntity<List<ProjectFetchDto>>fetchAll() {
+        List<ProjectFetchDto> byUserInProject = projectFacade.fetchAllProjects();
         return ResponseEntity.ok(byUserInProject);
     }
 }

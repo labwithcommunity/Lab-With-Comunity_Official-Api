@@ -2,18 +2,17 @@ package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity @Table(name = "projects")
+@Entity
+@Table(name = "projects")
 @NoArgsConstructor
 @Data
 class ProjectEntity {
@@ -27,7 +26,11 @@ class ProjectEntity {
     private String website;
     private String wiki;
     private String tracking;
-    private UUID creatorid;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    private UserQueryDto creatorid;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "methodology_id")
@@ -43,11 +46,26 @@ class ProjectEntity {
     @EqualsAndHashCode.Exclude
     private Set<UserQueryDto> participants = new HashSet<>();
 
-    public ProjectEntity(String name,String description,
+    /*
+    {
+    "id": 1,
+    "name": "Projekt 1",
+    "description": "Opis projektu 1",
+    "created": "2022-01-01 12:00:00",
+    "creator": "username",
+    "methodology": "Extreme Programming",
+    "license": "MIT",
+    "website": "https://example.com/project1",
+    "wiki": "https://example.com/project1/wiki",
+    "tracking": "https://example.com/project1/tracking"
+    }
+     */
+
+    public ProjectEntity(String name, String description,
                          MethodologyEntity methodology,
                          LicenceEntity licence,
-                          String website, String wiki,
-                         String tracking,  UUID creator) {
+                         String website, String wiki,
+                         String tracking, UserQueryDto creator) {
         this.name = name;
         this.description = description;
         this.website = website;

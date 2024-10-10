@@ -21,15 +21,15 @@ class ProjectCreatorService implements ProjectCreator {
 
     @Override
     public ProjectFetchDto createProject(ProjectCreateDto projectCreateDTO, String username) {
-        UserQueryDto owner = userFacade.getQueryUser(username);
+        UserQueryDto creator = userFacade.getQueryUser(username);
         isExistByName(projectCreateDTO);
-        ProjectEntity project = buildProjectEntity(projectCreateDTO, owner);
+        ProjectEntity project = buildProjectEntity(projectCreateDTO, creator);
         projectRepository.save(project);
         log.info("Created project {}", project.getName());
-        return ProjectMapper.mapToProjectFetchDto(project, owner.getNickname());
+        return ProjectMapper.mapToProjectFetchDto(project);
     }
 
-    private ProjectEntity buildProjectEntity(ProjectCreateDto projectCreateDTO, UserQueryDto owner) {
+    private ProjectEntity buildProjectEntity(ProjectCreateDto projectCreateDTO, UserQueryDto creator) {
         return new ProjectEntity(
                 projectCreateDTO.name(),
                 projectCreateDTO.description(),
@@ -38,7 +38,7 @@ class ProjectCreatorService implements ProjectCreator {
                 projectCreateDTO.website(),
                 projectCreateDTO.wiki(),
                 projectCreateDTO.tracking(),
-                owner.getId()
+                creator
                 );
     }
 

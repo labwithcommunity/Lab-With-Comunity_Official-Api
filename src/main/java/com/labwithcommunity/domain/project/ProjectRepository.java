@@ -10,7 +10,7 @@ import java.util.UUID;
 
 interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
-    Optional<List<ProjectEntity>> findAllByCreatorid(UUID creatorId);
+    Optional<List<ProjectEntity>> findAllByCreatorid(UserQueryDto creatorId);
 
     @Query("SELECT p FROM ProjectEntity p JOIN p.participants part WHERE part = :user")
     Optional<List<ProjectEntity>> findProjectsByParticipant(UserQueryDto user);

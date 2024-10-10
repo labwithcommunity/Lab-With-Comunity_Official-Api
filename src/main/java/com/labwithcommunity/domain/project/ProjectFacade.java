@@ -30,7 +30,8 @@ public class ProjectFacade {
         return projectFinder.findByParticipant(username);
     }
 
-    public List<FindProjectsDto> fetchAllProjects() {
+    public List<ProjectFetchDto> fetchAllProjects() {
         return projectFinder.listAllProjects();
+
     }
 }

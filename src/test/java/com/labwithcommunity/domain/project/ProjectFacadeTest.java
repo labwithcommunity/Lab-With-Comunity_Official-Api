@@ -41,7 +41,7 @@ class ProjectFacadeTest extends ProjectFacadeTestConfiguration {
         projectFacade.createProject(projectCreateDto3, "userTest");
 
         //When
-        List<FindProjectsDto> projects = projectFacade.fetchAllProjects();
+        List<ProjectFetchDto> projects = projectFacade.fetchAllProjects();
 
         //Then
         assertAll(

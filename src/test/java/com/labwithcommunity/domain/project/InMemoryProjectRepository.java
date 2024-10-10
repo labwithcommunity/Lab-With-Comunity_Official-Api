@@ -20,10 +20,10 @@ class InMemoryProjectRepository implements ProjectRepository {
     ConcurrentHashMap<Long, ProjectEntity> database = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<List<ProjectEntity>> findAllByCreatorid(UUID creatorId) {
+    public Optional<List<ProjectEntity>> findAllByCreatorid(UserQueryDto creatorId) {
         List<ProjectEntity> projects = new ArrayList<>();
         for (ProjectEntity project : database.values()) {
-            if (project.getOwner().equals(creator)) {
+            if (project.getCreatorid().equals(creatorId)) {
                 projects.add(project);
             }
         }
@@ -96,7 +96,7 @@ class InMemoryProjectRepository implements ProjectRepository {
         ProjectEntity newEntity = new ProjectEntity();
         long projectId = idGenerator.getAndIncrement();
         entity.setId(projectId);
-        newEntity.setOwner(entity.getOwner());
+        newEntity.setCreatorid(entity.getCreatorid());
         newEntity.setName(entity.getName());
         newEntity.setDescription(entity.getDescription());
         newEntity.setWebsite(entity.getWebsite());
