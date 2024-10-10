@@ -46,21 +46,6 @@ class ProjectEntity {
     @EqualsAndHashCode.Exclude
     private Set<UserQueryDto> participants = new HashSet<>();
 
-    /*
-    {
-    "id": 1,
-    "name": "Projekt 1",
-    "description": "Opis projektu 1",
-    "created": "2022-01-01 12:00:00",
-    "creator": "username",
-    "methodology": "Extreme Programming",
-    "license": "MIT",
-    "website": "https://example.com/project1",
-    "wiki": "https://example.com/project1/wiki",
-    "tracking": "https://example.com/project1/tracking"
-    }
-     */
-
     public ProjectEntity(String name, String description,
                          MethodologyEntity methodology,
                          LicenceEntity licence,

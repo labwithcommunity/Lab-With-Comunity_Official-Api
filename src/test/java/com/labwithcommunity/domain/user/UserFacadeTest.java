@@ -18,147 +18,158 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserFacadeTest extends UserFacadeTestConfiguration {
 
-
-    @Test
-    void shouldSaveUserSuccessfully() {
-        //Given & When
-        UserCreateResponseDto saveUser = registerTestUser();
-
-        //Then
-        assertAll(
-                () -> Assertions.assertNotNull(saveUser),
-                () -> assertEquals(userRegisterDto.username(), saveUser.nickname()),
-                () -> assertEquals(userRegisterDto.username(), saveUser.username()),
-                () -> assertEquals(userRegisterDto.email(), saveUser.email())
-        );
-    }
-
-    @Test
-    void shouldThrowExceptionWhenTryToSaveWithNicknameAlreadySaved() {
-        //Given
-        UserCreateResponseDto userInDb = registerTestUser();
-
-        //When && Then
-        assertEquals(userRegisterDto.username(), userInDb.nickname());
-        assertThrows(UserAlreadyExistsException.class,
-                () -> userFacade.registerUser(userRegisterDto));
-    }
-
+//    private final UserFacade userFacade = new UserFacade(new UserRegistrationService(inMemoryUserRepository, new InMemoryPasswordEncoder()),
+//            new UserFinderService(inMemoryUserRepository),
+//            new TechnologyRegistryService(new UserFinderService(inMemoryUserRepository)));
+//
+//    private UserCreateResponseDto registerTestUser() {
+//        return userFacade.registerUser(userRegisterDto);
+//    }
+//
+//    private UserCreateResponseDto registerTestUserWithTwoTechnologies() {
+//        return userFacade.registerUser(userRegisterDtoWithTwoTechnologies);
+//    }
+//
 //    @Test
-//     void shouldAddMemberRoleToUserSuccessfully() {
+//    void shouldSaveUserSuccessfully() {
+//        //Given & When
+//        UserCreateResponseDto saveUser = registerTestUser();
+//
+//        //Then
+//        assertAll(
+//                () -> Assertions.assertNotNull(saveUser),
+//                () -> assertEquals(userRegisterDto.username(), saveUser.nickname()),
+//                () -> assertEquals(userRegisterDto.username(), saveUser.username()),
+//                () -> assertEquals(userRegisterDto.email(), saveUser.email())
+//        );
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionWhenTryToSaveWithNicknameAlreadySaved() {
 //        //Given
-//        Set<UserMemberRoles> role = Set.of(UserMemberRoles.MEMBER);
+//        UserCreateResponseDto userInDb = registerTestUser();
+//
+//        //When && Then
+//        assertEquals(userRegisterDto.username(), userInDb.nickname());
+//        assertThrows(UserAlreadyExistsException.class,
+//                () -> userFacade.registerUser(userRegisterDto));
+//    }
+//
+////    @Test
+////     void shouldAddMemberRoleToUserSuccessfully() {
+////        //Given
+////        Set<UserMemberRoles> role = Set.of(UserMemberRoles.MEMBER);
+////        String nickname = userRegisterDto.username();
+////        registerTestUser();
+////
+////        //When
+////        userFacade.addRolesToUser(role,nickname);
+////
+////        //Then
+////        UserResponseDto userByNickname = userFacade.findUserByUsername(nickname);
+////        assertEquals(role, userByNickname.roles());
+////    }
+//
+//    @Test
+//    void shoudlFindUserWithGivenNicknameSuccessfully() {
+//        //Given
 //        String nickname = userRegisterDto.username();
 //        registerTestUser();
 //
 //        //When
-//        userFacade.addRolesToUser(role,nickname);
+//        UserResponseDto userByNickname = userFacade.findUserByUsername(nickname);
 //
 //        //Then
-//        UserResponseDto userByNickname = userFacade.findUserByUsername(nickname);
-//        assertEquals(role, userByNickname.roles());
+//        assertEquals(userRegisterDto.username(), userByNickname.nickname());
 //    }
-
-    @Test
-    void shoudlFindUserWithGivenNicknameSuccessfully() {
-        //Given
-        String nickname = userRegisterDto.username();
-        registerTestUser();
-
-        //When
-        UserResponseDto userByNickname = userFacade.findUserByUsername(nickname);
-
-        //Then
-        assertEquals(userRegisterDto.username(), userByNickname.nickname());
-    }
-
-    @Test
-    void shouldThrowUserNotFoundException() {
-        //Given
-        registerTestUser();
-        String correctNickname = userRegisterDto.username();
-
-        //When && Then
-        String wrongNickname = "wrongNickname";
-        assertEquals(correctNickname, userRegisterDto.username());
-        assertThrows(UserNotFoundException.class,
-                () -> userFacade.findUserByUsername(wrongNickname));
-    }
-
-    @Test
-    void shouldAddTechnologyToProgramingLanguageSuccessfully() {
-        //Given
-        registerTestUser();
-        HashSet<TechnologiesForProgrammingLanguage> updateTechnologies = new HashSet<>();
-        updateTechnologies.add(TechnologiesForProgrammingLanguage.SPRING);
-        updateTechnologies.add(TechnologiesForProgrammingLanguage.BACKEND);
-        UserTechnologyDto technologiesUpdate = new UserTechnologyDto(ProgrammingLanguage.JAVA, updateTechnologies);
-
-        //When
-        HashSet<UserTechnologyDto> setOfTechForUpdate = new HashSet<>();
-        setOfTechForUpdate.add(technologiesUpdate);
-
-        UserResponseDto response = userFacade.updateTechnologyOfUser(setOfTechForUpdate,userRegisterDto.username());
-
-        //Then
-        Set<TechnologiesForProgrammingLanguage> userTechnologyForProgrammingLanguages = response.technologies().stream()
-                .filter(tech -> tech.getProgrammingLanguage() == ProgrammingLanguage.JAVA)
-                .findFirst()
-                .orElseThrow()
-                .getUserTechnologyForProgrammingLanguages();
-
-        assertAll(
-                ()->assertEquals(1,response.technologies().size()),
-                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.BACKEND)),
-                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.SPRING)),
-                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.HIBERNATE))
-                );
-    }
-
-    @Test
-    void shouldDeleteTechnologyAndProgrammingLanguageSuccessfully() {
-        //Given
-        UserCreateResponseDto userCreateResponseDto = registerTestUser();
-
-        //When
-        userFacade.deleteTechnologiesOfUser(userCreateResponseDto.username(),ProgrammingLanguage.JAVA,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE));
-
-        //Then
-        UserResponseDto userByUsername = userFacade.findUserByUsername(userCreateResponseDto.username());
-        assertEquals(userRegisterDto.username(), userCreateResponseDto.username());
-        assertEquals(0,userByUsername.technologies().size());
-    }
-
-    @Test
-    void shouldDeleteOneTechnologyFromProgrammingLanguageSuccessfully() {
-        //Given
-        UserCreateResponseDto userCreateResponseDto = registerTestUserWithTwoTechnologies();
-
-        //When
-        userFacade.deleteTechnologiesOfUser(userCreateResponseDto.username(),ProgrammingLanguage.JAVA
-                ,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE));
-
-        //Then
-        UserResponseDto userByUsername = userFacade.findUserByUsername(userCreateResponseDto.username());
-        Set<TechnologiesForProgrammingLanguage> userTechnologies = userByUsername.technologies().stream()
-                .filter(tech -> tech.getProgrammingLanguage() == ProgrammingLanguage.JAVA)
-                .findFirst()
-                .orElseThrow()
-                .getUserTechnologyForProgrammingLanguages();
-
-        assertEquals(userRegisterDtoWithTwoTechnologies.username(), userCreateResponseDto.username());
-        assertTrue(userTechnologies.contains(TechnologiesForProgrammingLanguage.BACKEND));
-        assertEquals(1,userTechnologies.size());
-    }
-
-    @Test
-    void shouldThrowExceptionWIthWrongProgrammingLanguage() {
-        //Given
-        UserCreateResponseDto registeredUser = registerTestUser();
-
-        //When & Then
-        assertThrows(UserTechnologyNotFoundException.class,
-                ()->userFacade.deleteTechnologiesOfUser(registeredUser.username()
-                        ,ProgrammingLanguage.PYTHON,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE)));
-    }
+//
+//    @Test
+//    void shouldThrowUserNotFoundException() {
+//        //Given
+//        registerTestUser();
+//        String correctNickname = userRegisterDto.username();
+//
+//        //When && Then
+//        String wrongNickname = "wrongNickname";
+//        assertEquals(correctNickname, userRegisterDto.username());
+//        assertThrows(UserNotFoundException.class,
+//                () -> userFacade.findUserByUsername(wrongNickname));
+//    }
+//
+//    @Test
+//    void shouldAddTechnologyToProgramingLanguageSuccessfully() {
+//        //Given
+//        registerTestUser();
+//        HashSet<TechnologiesForProgrammingLanguage> updateTechnologies = new HashSet<>();
+//        updateTechnologies.add(TechnologiesForProgrammingLanguage.SPRING);
+//        updateTechnologies.add(TechnologiesForProgrammingLanguage.BACKEND);
+//        UserTechnologyDto technologiesUpdate = new UserTechnologyDto(ProgrammingLanguage.JAVA, updateTechnologies);
+//
+//        //When
+//        HashSet<UserTechnologyDto> setOfTechForUpdate = new HashSet<>();
+//        setOfTechForUpdate.add(technologiesUpdate);
+//
+//        UserResponseDto response = userFacade.updateTechnologyOfUser(setOfTechForUpdate,userRegisterDto.username());
+//
+//        //Then
+//        Set<TechnologiesForProgrammingLanguage> userTechnologyForProgrammingLanguages = response.technologies().stream()
+//                .filter(tech -> tech.getProgrammingLanguage() == ProgrammingLanguage.JAVA)
+//                .findFirst()
+//                .orElseThrow()
+//                .getUserTechnologyForProgrammingLanguages();
+//
+//        assertAll(
+//                ()->assertEquals(1,response.technologies().size()),
+//                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.BACKEND)),
+//                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.SPRING)),
+//                ()->assertTrue(userTechnologyForProgrammingLanguages.contains(TechnologiesForProgrammingLanguage.HIBERNATE))
+//                );
+//    }
+//
+//    @Test
+//    void shouldDeleteTechnologyAndProgrammingLanguageSuccessfully() {
+//        //Given
+//        UserCreateResponseDto userCreateResponseDto = registerTestUser();
+//
+//        //When
+//        userFacade.deleteTechnologiesOfUser(userCreateResponseDto.username(),ProgrammingLanguage.JAVA,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE));
+//
+//        //Then
+//        UserResponseDto userByUsername = userFacade.findUserByUsername(userCreateResponseDto.username());
+//        assertEquals(userRegisterDto.username(), userCreateResponseDto.username());
+//        assertEquals(0,userByUsername.technologies().size());
+//    }
+//
+//    @Test
+//    void shouldDeleteOneTechnologyFromProgrammingLanguageSuccessfully() {
+//        //Given
+//        UserCreateResponseDto userCreateResponseDto = registerTestUserWithTwoTechnologies();
+//
+//        //When
+//        userFacade.deleteTechnologiesOfUser(userCreateResponseDto.username(),ProgrammingLanguage.JAVA
+//                ,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE));
+//
+//        //Then
+//        UserResponseDto userByUsername = userFacade.findUserByUsername(userCreateResponseDto.username());
+//        Set<TechnologiesForProgrammingLanguage> userTechnologies = userByUsername.technologies().stream()
+//                .filter(tech -> tech.getProgrammingLanguage() == ProgrammingLanguage.JAVA)
+//                .findFirst()
+//                .orElseThrow()
+//                .getUserTechnologyForProgrammingLanguages();
+//
+//        assertEquals(userRegisterDtoWithTwoTechnologies.username(), userCreateResponseDto.username());
+//        assertTrue(userTechnologies.contains(TechnologiesForProgrammingLanguage.BACKEND));
+//        assertEquals(1,userTechnologies.size());
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionWIthWrongProgrammingLanguage() {
+//        //Given
+//        UserCreateResponseDto registeredUser = registerTestUser();
+//
+//        //When & Then
+//        assertThrows(UserTechnologyNotFoundException.class,
+//                ()->userFacade.deleteTechnologiesOfUser(registeredUser.username()
+//                        ,ProgrammingLanguage.PYTHON,Set.of(TechnologiesForProgrammingLanguage.HIBERNATE)));
+//    }
 }

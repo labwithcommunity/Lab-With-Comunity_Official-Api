@@ -9,12 +9,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
- interface UserRepository extends JpaRepository<UserEntity, UUID> {
+ interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByUsername(String nickname);
 
-    @Query("SELECT u FROM UserEntity u LEFT JOIN FETCH u.technologies WHERE u.nickname = :nickname")
+//    @Query("SELECT u FROM UserEntity u LEFT JOIN FETCH u.technologies WHERE u.nickname = :nickname")
     Optional<UserEntity> findByUsername(String nickname);
 
     @Query("SELECT new com.labwithcommunity.domain.user.dto.GetLoggedUserDto(u.username, u.password) FROM UserEntity u WHERE u.nickname = :nickname")
     Optional<GetLoggedUserDto> findUsernameAndPasswordByNickname(String nickname);
+
+    boolean existsByEmail(String email);
+
+   boolean existsByNickname(String username);
 }

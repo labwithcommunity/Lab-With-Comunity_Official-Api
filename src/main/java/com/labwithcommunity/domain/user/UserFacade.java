@@ -4,6 +4,7 @@ import com.labwithcommunity.domain.user.dto.*;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
 import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
@@ -31,14 +32,14 @@ public class UserFacade {
 //        return userRegistration.addRoleToUser(userMemberRoles, username);
 //    }
 
-    public UserResponseDto updateTechnologyOfUser(Set<UserTechnologyDto> userTechnologyDto, String username){
-        return technologyRegistryService.updateTechnologies(userTechnologyDto, username);
-    }
+//    public UserResponseDto updateTechnologyOfUser(Set<UserTechnologyDto> userTechnologyDto, String username){
+//        return technologyRegistryService.updateTechnologies(userTechnologyDto, username);
+//    }
 
-    public void deleteTechnologiesOfUser(String username, ProgrammingLanguage programmingLanguage,
-                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
-        technologyRegistryService.removeTechnologyFromUser(username, programmingLanguage, technologyToRemove);
-    }
+//    public void deleteTechnologiesOfUser(String username, ProgrammingLanguage programmingLanguage,
+//                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
+//        technologyRegistryService.removeTechnologyFromUser(username, programmingLanguage, technologyToRemove);
+//    }
 
     public UserQueryDto getQueryUser(String username) {
         return userFinder.getUserQuery(username);

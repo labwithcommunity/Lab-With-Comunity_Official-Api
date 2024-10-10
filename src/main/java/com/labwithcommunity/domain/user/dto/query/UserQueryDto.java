@@ -26,8 +26,8 @@ public class UserQueryDto {
     private String email;
     //    private Set<UserMemberRoles> roles = new HashSet<>();
 
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonBackReference
-    private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
 }

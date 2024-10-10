@@ -10,7 +10,7 @@ class UserBeanConfiguration {
     @Bean
     TechnologyRegistryService technologyRegistryService(UserRepository userRepository) {
         UserFinderService userFinderService = new UserFinderService(userRepository);
-        return new TechnologyRegistryService(userFinderService);
+        return new TechnologyRegistryService();
     }
 
     @Bean
