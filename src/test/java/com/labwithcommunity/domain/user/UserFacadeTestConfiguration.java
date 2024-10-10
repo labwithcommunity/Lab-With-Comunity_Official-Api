@@ -23,11 +23,11 @@ class UserFacadeTestConfiguration {
         setOfTech.add(TechnologiesForProgrammingLanguage.HIBERNATE);
         setOfTech2.add(TechnologiesForProgrammingLanguage.HIBERNATE);
         setOfTech2.add(TechnologiesForProgrammingLanguage.BACKEND);
-        UserTechnologyDto technology = new UserTechnologyDto(ProgrammingLanguage.JAVA, setOfTech);
-        UserTechnologyDto technology2 = new UserTechnologyDto(ProgrammingLanguage.JAVA, setOfTech2);
-        setOfTechDto.add(technology);
-        setOfTechDto2.add(technology2);
-        userRegisterDto = new UserCreateDto("userTest", "password", "emailTest",setOfTechDto);
-        userRegisterDtoWithTwoTechnologies = new UserCreateDto("userTest2", "password2", "emailTest",setOfTechDto2);
+//        UserTechnologyDto technology = new UserTechnologyDto(ProgrammingLanguage.JAVA, setOfTech);
+//        UserTechnologyDto technology2 = new UserTechnologyDto(ProgrammingLanguage.JAVA, setOfTech2);
+//        setOfTechDto.add(technology);
+//        setOfTechDto2.add(technology2);
+//        userRegisterDto = new UserCreateDto("userTest", "password", "emailTest",setOfTechDto);
+//        userRegisterDtoWithTwoTechnologies = new UserCreateDto("userTest2", "password2", "emailTest",setOfTechDto2);
     }
 }
