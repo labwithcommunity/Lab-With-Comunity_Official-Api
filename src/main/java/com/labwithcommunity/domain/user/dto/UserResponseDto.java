@@ -11,10 +11,6 @@ import java.util.Set;
 public record UserResponseDto(
         String username,
         String nickname,
-        String email,
-//        Set<UserMemberRoles> roles,
-        Set<UserTechnologyDto> technologies,
-        List<ProjectQueryDto> ownerProjects
-
+        String email
 ) {
 }

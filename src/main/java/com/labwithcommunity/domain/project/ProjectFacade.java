@@ -10,26 +10,28 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjectFacade {
 
-    private final ProjectService projectService;
+    private final ProjectFinder projectFinder;
+    private final ProjectCreator projectCreator;
 
 
     public List<ProjectFetchDto> findProjectByOwner(String username) {
-        return projectService.getProjectByOwner(username);
+        return projectFinder.getProjectByOwner(username);
     }
 
     public ProjectFetchDto createProject(ProjectCreateDto projectCreateDto, String username) {
-        return projectService.createProject(projectCreateDto, username);
+        return projectCreator.createProject(projectCreateDto, username);
     }
 
-    public void signToProject(String projectName, String username) {
-        projectService.signToProject(projectName, username);
+    public void signToProject(Long id, String username) {
+        projectFinder.signToProject(id, username);
     }
 
     public List<ProjectFetchDto> findByUserInProject(String username) {
-        return projectService.findByParticipant(username);
+        return projectFinder.findByParticipant(username);
     }
 
-    public List<FindProjectsDto> fetchAllProjects() {
-        return projectService.listAllProjects();
+    public List<ProjectFetchDto> fetchAllProjects() {
+        return projectFinder.listAllProjects();
+
     }
 }

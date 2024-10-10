@@ -18,11 +18,10 @@ public class ProjectQueryDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private Double rating;
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", nullable = false)
+   // @JoinColumn(name = "owner_id", nullable = false)
     @JsonIgnore
     private UserQueryDto owner;
 }

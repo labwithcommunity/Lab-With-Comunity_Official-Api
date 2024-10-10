@@ -2,45 +2,63 @@ package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.builder.HashCodeExclude;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 @Table(name = "projects")
+@NoArgsConstructor
+@Data
 class ProjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String github;
-    private Double rating;
+    private String name;
     private String description;
-
+    private LocalDateTime created;
+    private String website;
+    private String wiki;
+    private String tracking;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", nullable = false)
     @EqualsAndHashCode.Exclude
-    private UserQueryDto owner;
+    private UserQueryDto creatorid;
 
-    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "methodology_id")
+    @EqualsAndHashCode.Exclude
+    private MethodologyEntity methodology;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "licence_id")
+    @EqualsAndHashCode.Exclude
+    private LicenceEntity licence;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private Set<UserQueryDto> participants = new HashSet<>();
 
-    public ProjectEntity(String title, String github, String description, UserQueryDto owner) {
-        this.title = title;
-        this.github = github;
+    public ProjectEntity(String name, String description,
+                         MethodologyEntity methodology,
+                         LicenceEntity licence,
+                         String website, String wiki,
+                         String tracking, UserQueryDto creator) {
+        this.name = name;
         this.description = description;
-        this.rating = 0.0;
-        this.owner = owner;
+        this.website = website;
+        this.wiki = wiki;
+        this.tracking = tracking;
+        this.methodology = methodology;
+        this.licence = licence;
+        this.creatorid = creator;
+        this.created = LocalDateTime.now();
     }
 }

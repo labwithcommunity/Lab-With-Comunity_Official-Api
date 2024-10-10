@@ -20,6 +20,7 @@ class ProjectController {
 
     private final ProjectFacade projectFacade;
 
+
     @PostMapping
     ResponseEntity<ProjectFetchDto>createProject(@RequestBody @Valid ProjectCreateDto projectCreateDto
             ,@AuthenticationPrincipal UserDetails userDetails) {
@@ -34,9 +35,9 @@ class ProjectController {
         return ResponseEntity.ok(projectByOwner);
     }
 
-    @PostMapping("sub")
-    ResponseEntity<Boolean>signToProject(String title, @AuthenticationPrincipal UserDetails userDetails) {
-        projectFacade.signToProject(title,userDetails.getUsername());
+    @PostMapping("sub/{id}")
+    ResponseEntity<Boolean>signToProject(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        projectFacade.signToProject(id,userDetails.getUsername());
         return ResponseEntity.ok().build();
     }
 
@@ -48,8 +49,8 @@ class ProjectController {
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<FindProjectsDto>>fetchAll() {
-        List<FindProjectsDto> byUserInProject = projectFacade.fetchAllProjects();
+    ResponseEntity<List<ProjectFetchDto>>fetchAll() {
+        List<ProjectFetchDto> byUserInProject = projectFacade.fetchAllProjects();
         return ResponseEntity.ok(byUserInProject);
     }
 }
