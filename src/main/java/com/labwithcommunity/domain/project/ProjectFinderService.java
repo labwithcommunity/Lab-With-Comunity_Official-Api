@@ -8,13 +8,19 @@ import com.labwithcommunity.domain.project.exception.UserSignedToProjectExceptio
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-class ProjectFinderService implements ProjectFinder {
+@Component
+public class ProjectFinderService implements ProjectFinder {
 
     private final ProjectRepository projectRepository;
     private final UserFacade userFacade;
@@ -70,5 +76,17 @@ class ProjectFinderService implements ProjectFinder {
     public List<ProjectFetchDto> listAllProjects() {
         List<ProjectEntity> allProjects = projectRepository.findAll();
         return ProjectMapper.mapToProjectFetchDtoList(allProjects);
+    }
+
+    public Page<ProjectFetchDto> listAllProjectsv2(String creatorid, Long methodology, Long license, Pageable pageable) {
+        Page<ProjectEntity> projectPage = projectRepository.findAllByFilters(creatorid, methodology, license, pageable);
+
+        System.out.println(projectPage.getContent().size() + "cccc");
+
+        // Mapowanie encji na DTO
+        List<ProjectFetchDto> projectFetchDtos = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent());
+
+        return new PageImpl<>(projectFetchDtos, pageable, projectPage.getTotalElements());
+
     }
 }

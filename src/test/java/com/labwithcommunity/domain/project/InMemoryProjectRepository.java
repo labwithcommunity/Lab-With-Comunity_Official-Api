@@ -89,6 +89,12 @@ class InMemoryProjectRepository implements ProjectRepository {
         return false;
     }
 
+    @Override
+    public Page<ProjectEntity> findAllByFilters(long creatorid, Long methodology, Long license, Pageable pageable) {
+        return null;
+    }
+
+
     private final AtomicLong idGenerator = new AtomicLong(1);
 
     @Override
