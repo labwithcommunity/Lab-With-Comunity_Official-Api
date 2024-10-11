@@ -18,7 +18,7 @@ class ProjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long projectId;
     private String name;
     private String description;
     private LocalDateTime created;
@@ -44,6 +44,9 @@ class ProjectEntity {
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private Set<UserQueryDto> participants = new HashSet<>();
+
+    @OneToOne(mappedBy = "project")
+    private RatingEntity ratingEntity;
 
     public ProjectEntity(String name, String description,
                          MethodologyEntity methodology,

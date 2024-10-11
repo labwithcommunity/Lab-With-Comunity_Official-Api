@@ -1,9 +1,9 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
-import com.labwithcommunity.domain.project.exception.ProjectExceptionMessages;
-import com.labwithcommunity.domain.project.exception.ProjectNotFoundException;
-import com.labwithcommunity.domain.project.exception.UserSignedToProjectException;
+import com.labwithcommunity.domain.project.dto.project.ProjectFetchDto;
+import com.labwithcommunity.domain.project.exception.project.ProjectExceptionMessages;
+import com.labwithcommunity.domain.project.exception.project.ProjectNotFoundException;
+import com.labwithcommunity.domain.project.exception.project.UserSignedToProjectException;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ class ProjectFinderService implements ProjectFinder {
     }
 
     private void validateUserNotAssignedToProject(UserQueryDto user, Long id) {
-        if (projectRepository.existsByParticipantsContainingAndId(user, id)) {
+        if (projectRepository.existsByParticipantsContainingAndProjectId(user, id)) {
             throw new UserSignedToProjectException(ProjectExceptionMessages.USER_ALREADY_SIGNED_TO_PROJECT.getMessage());
         }
     }

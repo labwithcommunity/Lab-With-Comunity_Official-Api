@@ -1,8 +1,8 @@
 package com.labwithcommunity.infrastructure.project.controller;
 
 import com.labwithcommunity.domain.project.ProjectFacade;
-import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
-import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
+import com.labwithcommunity.domain.project.dto.project.ProjectCreateDto;
+import com.labwithcommunity.domain.project.dto.project.ProjectFetchDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

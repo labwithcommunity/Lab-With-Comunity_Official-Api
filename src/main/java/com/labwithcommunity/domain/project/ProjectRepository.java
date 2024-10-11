@@ -22,7 +22,7 @@ interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     boolean existsByName(String title);
 
-    boolean existsByParticipantsContainingAndId(UserQueryDto user, Long id);
+    boolean existsByParticipantsContainingAndProjectId(UserQueryDto user, Long id);
 
     boolean existsById(Long id);
 

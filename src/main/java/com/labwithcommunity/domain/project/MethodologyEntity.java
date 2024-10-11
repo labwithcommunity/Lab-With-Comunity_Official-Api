@@ -1,6 +1,7 @@
 package com.labwithcommunity.domain.project;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Table(name = "methodologys")
 @Getter @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 class MethodologyEntity {
 
     @Id

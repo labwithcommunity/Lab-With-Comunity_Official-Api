@@ -47,7 +47,7 @@ class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public boolean existsByParticipantsContainingAndId(UserQueryDto user, Long id) {
+    public boolean existsByParticipantsContainingAndProjectId(UserQueryDto user, Long id) {
         return database.values().stream()
                 .filter(project -> project.getId().equals(id))
                 .anyMatch(project -> project.getParticipants().contains(user));

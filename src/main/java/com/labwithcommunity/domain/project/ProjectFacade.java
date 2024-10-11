@@ -1,7 +1,7 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
-import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
+import com.labwithcommunity.domain.project.dto.project.ProjectCreateDto;
+import com.labwithcommunity.domain.project.dto.project.ProjectFetchDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

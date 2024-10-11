@@ -1,6 +1,6 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
+import com.labwithcommunity.domain.project.dto.project.query.ProjectQueryDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

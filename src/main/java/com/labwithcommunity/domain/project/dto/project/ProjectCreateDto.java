@@ -1,4 +1,4 @@
-package com.labwithcommunity.domain.project.dto;
+package com.labwithcommunity.domain.project.dto.project;
 
 public record ProjectCreateDto(
         String name,
