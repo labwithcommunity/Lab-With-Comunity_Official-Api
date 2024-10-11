@@ -19,6 +19,8 @@ class UserRegistrationService implements UserRegistration {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ConfirmationsService confirmationsService;
+    private final EmailService emailService;
+    private final TokenEmailService tokenEmailService;
 
     @Override
     public UserCreateResponseDto register(UserCreateDto userCreateDto) {
@@ -39,6 +41,8 @@ class UserRegistrationService implements UserRegistration {
         UserEntity savedUserEntity = userRepository.save(userEntity);
         confirmationsService.addConfirmation(userEntity);
         log.info("User registered: {}", savedUserEntity.getId());
+        String token = tokenEmailService.createRegisterToken(userEntity.getEmail());
+        emailService.sendRegisterEmail(savedUserEntity.getEmail(), token);
         return new UserCreateResponseDto(
                 savedUserEntity.getUsername(),
                 savedUserEntity.getNickname(),
