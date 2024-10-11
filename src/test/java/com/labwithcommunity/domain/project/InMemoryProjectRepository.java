@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.FluentQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -90,7 +89,7 @@ class InMemoryProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public Page<ProjectEntity> findAllByFilters(long creatorid, Long methodology, Long license, Pageable pageable) {
+    public Page<ProjectEntity> findAllByFilters(Long creatorid, Long methodology, Long license, Pageable pageable) {
         return null;
     }
 

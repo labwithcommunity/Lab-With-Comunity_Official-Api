@@ -1,6 +1,5 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.FindProjectsDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
 import com.labwithcommunity.domain.project.exception.ProjectExceptionMessages;
 import com.labwithcommunity.domain.project.exception.ProjectNotFoundException;
@@ -10,17 +9,14 @@ import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Component
-public class ProjectFinderService implements ProjectFinder {
+class ProjectFinderService implements ProjectFinder {
 
     private final ProjectRepository projectRepository;
     private final UserFacade userFacade;
@@ -31,7 +27,7 @@ public class ProjectFinderService implements ProjectFinder {
         List<ProjectEntity> projectEntities = projectRepository.findAllByCreatorid(queryUser)
                 .orElseThrow(() -> new ProjectNotFoundException(
                         ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
-               // ProjectMapper.mapToProjectFetchDtoList(projectEntities);
+        // ProjectMapper.mapToProjectFetchDtoList(projectEntities);
         return null;
     }
 
@@ -68,25 +64,14 @@ public class ProjectFinderService implements ProjectFinder {
                 projectRepository.findProjectsByParticipant(queryUser)
                         .orElseThrow(() -> new ProjectNotFoundException(
                                 ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
-             //   ProjectMapper.mapToProjectFetchDtoList(projects);
+        //   ProjectMapper.mapToProjectFetchDtoList(projects);
         return null;
     }
 
     @Override
-    public List<ProjectFetchDto> listAllProjects() {
-        List<ProjectEntity> allProjects = projectRepository.findAll();
-        return ProjectMapper.mapToProjectFetchDtoList(allProjects);
-    }
-
-    public Page<ProjectFetchDto> listAllProjectsv2(String creatorid, Long methodology, Long license, Pageable pageable) {
+    public Page<ProjectFetchDto> listAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
         Page<ProjectEntity> projectPage = projectRepository.findAllByFilters(creatorid, methodology, license, pageable);
-
-        System.out.println(projectPage.getContent().size() + "cccc");
-
-        // Mapowanie encji na DTO
-        List<ProjectFetchDto> projectFetchDtos = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent());
-
-        return new PageImpl<>(projectFetchDtos, pageable, projectPage.getTotalElements());
-
+        List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent());
+        return new PageImpl<>(dto, pageable, projectPage.getTotalElements());
     }
 }

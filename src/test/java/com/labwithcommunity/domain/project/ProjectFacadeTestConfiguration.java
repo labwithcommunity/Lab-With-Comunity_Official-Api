@@ -1,8 +1,6 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.user.UserFacadeTestConfiguration;
-import org.junit.jupiter.api.BeforeEach;
 
 public class ProjectFacadeTestConfiguration extends UserFacadeTestConfiguration {
 

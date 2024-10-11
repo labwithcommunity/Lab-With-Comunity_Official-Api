@@ -1,7 +1,6 @@
 package com.labwithcommunity.infrastructure.project.controller;
 
 import com.labwithcommunity.domain.project.ProjectFacade;
-import com.labwithcommunity.domain.project.ProjectFinderService;
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
 import jakarta.validation.Valid;
@@ -22,8 +21,6 @@ import java.util.List;
 class ProjectController {
 
     private final ProjectFacade projectFacade;
-    private final ProjectFinderService projectFinderService;
-
 
     @PostMapping
     ResponseEntity<ProjectFetchDto> createProject(@RequestBody @Valid ProjectCreateDto projectCreateDto
@@ -52,28 +49,18 @@ class ProjectController {
 //        return ResponseEntity.ok(byUserInProject);
 //    }
 
-    @GetMapping("/all")
-    ResponseEntity<List<ProjectFetchDto>> fetchAll() {
-        List<ProjectFetchDto> byUserInProject = projectFacade.fetchAllProjects();
-        return ResponseEntity.ok(byUserInProject);
-    }
-
     @GetMapping
     public ResponseEntity<Page<ProjectFetchDto>> listAllProjects(
-            @RequestParam(value = "user", required = false) String user,
-            @RequestParam(value = "methodology", required = false) Long methodology,
-            @RequestParam(value = "license", required = false) Long license,
-            @RequestParam(value = "limit") Integer limit, // limit obowiązkowy
-            @RequestParam(value = "page") Integer page) { // page obowiązkowy
-
-        // Sprawdzenie, czy limit i page są większe od zera
+            @RequestParam(required = false) Long user,
+            @RequestParam(required = false) Long methodology,
+            @RequestParam(required = false) Long license,
+            @RequestParam() Integer limit,
+            @RequestParam() Integer page) {
         if (limit <= 0 || page < 0) {
             return ResponseEntity.badRequest().body(Page.empty());
         }
-
         Pageable pageable = PageRequest.of(page, limit);
-        Page<ProjectFetchDto> projects = projectFinderService.listAllProjectsv2(user, methodology, license, pageable);
-
+        Page<ProjectFetchDto> projects = projectFacade.fetchAllProjects(user, methodology, license, pageable);
         return ResponseEntity.ok(projects);
     }
 }

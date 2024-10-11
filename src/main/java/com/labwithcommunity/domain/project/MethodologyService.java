@@ -1,7 +1,6 @@
 package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.project.dto.MethodologyCreateDto;
-import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

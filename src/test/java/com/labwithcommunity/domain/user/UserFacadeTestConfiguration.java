@@ -1,15 +1,6 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.dto.UserCreateDto;
-import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
-import com.labwithcommunity.domain.user.dto.UserTechnologyDto;
-import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
-import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
-import org.junit.jupiter.api.BeforeEach;
-
-import java.util.HashSet;
-
- public class UserFacadeTestConfiguration {
+public class UserFacadeTestConfiguration {
 
 //    InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
 //    public final UserFacade userFacade = new UserFacade(new UserRegistrationService(inMemoryUserRepository, new InMemoryPasswordEncoder()),

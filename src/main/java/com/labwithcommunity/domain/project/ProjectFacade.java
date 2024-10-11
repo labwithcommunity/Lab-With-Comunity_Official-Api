@@ -1,9 +1,10 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.FindProjectsDto;
 import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -30,8 +31,7 @@ public class ProjectFacade {
         return projectFinder.findByParticipant(username);
     }
 
-    public List<ProjectFetchDto> fetchAllProjects() {
-        return projectFinder.listAllProjects();
-
+    public Page<ProjectFetchDto> fetchAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
+        return projectFinder.listAllProjects(creatorid,methodology,license,pageable);
     }
 }

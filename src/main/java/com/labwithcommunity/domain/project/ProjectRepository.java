@@ -1,7 +1,6 @@
 package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
@@ -28,10 +27,10 @@ interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     boolean existsById(Long id);
 
     @Query("SELECT p FROM ProjectEntity p " +
-            "WHERE (:creatorid IS NULL OR p.creatorid.nickname = :creatorid) " +
+            "WHERE (:creatorid IS NULL OR p.creatorid.id = :creatorid) " +
             "AND (:methodology IS NULL OR p.methodology.id = :methodology) " +
             "AND (:license IS NULL OR p.licence.id = :license)")
-    Page<ProjectEntity> findAllByFilters(@Param("creatorid") String creatorid,
+    Page<ProjectEntity> findAllByFilters(@Param("creatorid") Long creatorid,
                                          @Param("methodology") Long methodology,
                                          @Param("license") Long license,
                                          Pageable pageable);

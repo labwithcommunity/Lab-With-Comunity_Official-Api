@@ -1,9 +1,6 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.FindProjectsDto;
 import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
-import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 import java.util.stream.Collectors;

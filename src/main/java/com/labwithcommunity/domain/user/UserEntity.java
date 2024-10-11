@@ -1,7 +1,6 @@
 package com.labwithcommunity.domain.user;
 
 import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor

@@ -1,21 +1,5 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
-import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.dto.UserTechnologyDto;
-import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
-import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
-import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
-import com.labwithcommunity.domain.user.exception.UserNotFoundException;
-import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class UserFacadeTest extends UserFacadeTestConfiguration {
 
 //    private final UserFacade userFacade = new UserFacade(new UserRegistrationService(inMemoryUserRepository, new InMemoryPasswordEncoder()),
