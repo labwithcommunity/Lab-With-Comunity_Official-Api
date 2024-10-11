@@ -14,14 +14,14 @@ class UserBeanConfiguration {
     }
 
     @Bean
-    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder,TechnologyRegistryService technologyRegistryService) {
+    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder, TechnologyRegistryService technologyRegistryService, ConfirmationsService confirmationsService) {
         UserFinderService userFinderService = new UserFinderService(userRepository);
-        UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository,passwordEncoder);
-        return new UserFacade(userRegistrationService,userFinderService,technologyRegistryService);
+        UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository, passwordEncoder, confirmationsService);
+        return new UserFacade(userRegistrationService, userFinderService, technologyRegistryService);
     }
 
     @Bean
-    UserRegistration userRegistrationService(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
-        return new UserRegistrationService(userRepository, passwordEncoder);
+    UserRegistration userRegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder, ConfirmationsService confirmationsService) {
+        return new UserRegistrationService(userRepository, passwordEncoder, confirmationsService);
     }
 }

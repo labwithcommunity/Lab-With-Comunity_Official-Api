@@ -18,6 +18,7 @@ class UserRegistrationService implements UserRegistration {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ConfirmationsService confirmationsService;
 
     @Override
     public UserCreateResponseDto register(UserCreateDto userCreateDto) {
@@ -35,9 +36,8 @@ class UserRegistrationService implements UserRegistration {
             username = addRandomNumberToNickname(username);
         }
         UserEntity userEntity = buildUserEntity(userCreateDto, username);
-        System.out.println(userEntity);
         UserEntity savedUserEntity = userRepository.save(userEntity);
-        System.out.println(savedUserEntity);
+        confirmationsService.addConfirmation(userEntity);
         log.info("User registered: {}", savedUserEntity.getId());
         return new UserCreateResponseDto(
                 savedUserEntity.getUsername(),
@@ -70,7 +70,7 @@ class UserRegistrationService implements UserRegistration {
     }
 
     private String addRandomNumberToNickname(String nickname) {
-        int randomNumber = new Random().nextInt(1000);
+        int randomNumber = new Random().nextInt(10000);
         return nickname + randomNumber;
     }
 }

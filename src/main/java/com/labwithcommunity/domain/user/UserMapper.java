@@ -26,7 +26,6 @@ class UserMapper {
                 .isAdmin(false)
                 .isApproved(false)
                 .email(userCreateDto.email())
-//                .createdAt(LocalDateTime.now())
                 .build();
 
     }

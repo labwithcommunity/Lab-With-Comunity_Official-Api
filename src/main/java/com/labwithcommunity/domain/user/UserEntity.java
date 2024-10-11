@@ -30,8 +30,10 @@ class UserEntity implements UserDetails {
     private boolean isAdmin;
     private boolean isApproved;
     private boolean isLocked;
-    private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
+
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private ConfirmationEntity confirmationEntity;
 
 
 //    @EqualsAndHashCode.Exclude
@@ -42,12 +44,12 @@ class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
 
-    public UserEntity(String nickname, String password, String email) {
-        this.username = nickname;
-        this.nickname = nickname;
-        this.password = password;
-        this.email = email;
-    }
+//    public UserEntity(String nickname, String password, String email) {
+//        this.username = nickname;
+//        this.nickname = nickname;
+//        this.password = password;
+//        this.email = email;
+//    }
 
 //    public void removeTechnologyFromUser(ProgrammingLanguage programmingLanguage,
 //                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
