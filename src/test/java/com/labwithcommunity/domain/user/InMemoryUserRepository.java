@@ -1,19 +1,6 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-
-// class InMemoryUserRepository implements UserRepository {
+class InMemoryUserRepository implements UserRepository {
 
 //    ConcurrentHashMap<String, UserEntity> dataBase = new ConcurrentHashMap<>();
 //
@@ -250,4 +237,4 @@ import java.util.function.Function;
 //    public <S extends UserEntity, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
 //        return null;
 //    }
-//}
+}

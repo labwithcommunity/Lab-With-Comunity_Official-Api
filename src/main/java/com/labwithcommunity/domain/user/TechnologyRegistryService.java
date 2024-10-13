@@ -1,13 +1,7 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.dto.UserResponseDto;
-import com.labwithcommunity.domain.user.enums.ProgrammingLanguage;
-import com.labwithcommunity.domain.user.enums.TechnologiesForProgrammingLanguage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
 @RequiredArgsConstructor
 @Slf4j
 class TechnologyRegistryService {

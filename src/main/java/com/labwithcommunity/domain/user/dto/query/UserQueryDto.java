@@ -1,16 +1,9 @@
 package com.labwithcommunity.domain.user.dto.query;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.labwithcommunity.domain.project.dto.query.ProjectQueryDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +13,7 @@ import java.util.UUID;
 public class UserQueryDto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nickname;
     private String email;

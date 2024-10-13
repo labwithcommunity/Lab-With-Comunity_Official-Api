@@ -1,4 +1,4 @@
-package com.labwithcommunity.domain.project.dto.query;
+package com.labwithcommunity.domain.project.dto.project.query;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
@@ -16,13 +16,12 @@ public class ProjectQueryDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private Double rating;
+    private Long projectId;
+    private String name;
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", nullable = false)
+   // @JoinColumn(name = "owner_id", nullable = false)
     @JsonIgnore
     private UserQueryDto owner;
 }

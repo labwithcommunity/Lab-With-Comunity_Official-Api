@@ -1,4 +1,4 @@
-package com.labwithcommunity.domain.project.exception;
+package com.labwithcommunity.domain.project.exception.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
