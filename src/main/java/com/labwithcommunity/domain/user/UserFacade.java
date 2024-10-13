@@ -12,7 +12,6 @@ public class UserFacade {
 
     private final UserRegistration userRegistration;
     private final UserFinder userFinder;
-    private final TechnologyRegistryService technologyRegistryService;
 
     public UserResponseDto findUserByUsername(String username) {
         return userFinder.findUserByUsername(username);
@@ -26,20 +25,11 @@ public class UserFacade {
         return userFinder.getLoggedUser(username);
     }
 
-//    public boolean addRolesToUser(Set<UserMemberRoles> userMemberRoles, String username){
-//        return userRegistration.addRoleToUser(userMemberRoles, username);
-//    }
-
-//    public UserResponseDto updateTechnologyOfUser(Set<UserTechnologyDto> userTechnologyDto, String username){
-//        return technologyRegistryService.updateTechnologies(userTechnologyDto, username);
-//    }
-
-//    public void deleteTechnologiesOfUser(String username, ProgrammingLanguage programmingLanguage,
-//                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
-//        technologyRegistryService.removeTechnologyFromUser(username, programmingLanguage, technologyToRemove);
-//    }
-
     public UserQueryDto getQueryUser(String username) {
         return userFinder.getUserQuery(username);
+    }
+
+    public String approveRegisterEmail(String token) {
+        return userRegistration.approveRegisterEmail(token);
     }
 }

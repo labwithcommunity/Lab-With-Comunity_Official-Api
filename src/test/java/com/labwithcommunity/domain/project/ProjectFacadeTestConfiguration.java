@@ -1,10 +1,12 @@
-package com.labwithcommunity.domain.project;
-
-import com.labwithcommunity.domain.user.UserFacadeTestConfiguration;
-
-public class ProjectFacadeTestConfiguration extends UserFacadeTestConfiguration {
-
-
+//package com.labwithcommunity.domain.project;
+//
+//import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
+//import com.labwithcommunity.domain.user.UserFacadeTestConfiguration;
+//import org.junit.jupiter.api.BeforeEach;
+//
+//public class ProjectFacadeTestConfiguration extends UserFacadeTestConfiguration {
+//
+//
 //    InMemoryProjectRepository inMemoryProjectRepository = new InMemoryProjectRepository();
 //
 //    ProjectFacade projectFacade= new ProjectFacade(new ProjectFinderService(inMemoryProjectRepository,userFacade),
@@ -24,5 +26,5 @@ public class ProjectFacadeTestConfiguration extends UserFacadeTestConfiguration 
 //        projectCreateDto2 =new ProjectCreateDto("TestTitle2","testDescription2","git@git.com2");
 //        projectCreateDto3 =new ProjectCreateDto("TestTitle3","testDescription3","git@git.com3");
 //    }
-
-}
+//
+//}

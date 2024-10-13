@@ -1,7 +1,18 @@
-package com.labwithcommunity.domain.project;
-
-class ProjectFacadeTest extends ProjectFacadeTestConfiguration {
-
+//package com.labwithcommunity.domain.project;
+//
+//import com.labwithcommunity.domain.project.dto.FindProjectsDto;
+//import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
+//import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
+//import org.junit.jupiter.api.Test;
+//
+//import java.util.List;
+//
+//import static org.assertj.core.api.Assertions.assertThat;
+//import static org.junit.jupiter.api.Assertions.*;
+//
+//
+//class ProjectFacadeTest extends ProjectFacadeTestConfiguration {
+//
 //    @Test
 //    void shouldCreateFirstProjectSuccessfully() {
 //        //Given
@@ -38,4 +49,4 @@ class ProjectFacadeTest extends ProjectFacadeTestConfiguration {
 //                () -> assertThat(projects).hasSize(3)
 //        );
 //    }
-}
+//}
