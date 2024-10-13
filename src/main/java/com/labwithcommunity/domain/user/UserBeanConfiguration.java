@@ -17,11 +17,16 @@ class UserBeanConfiguration {
     UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder, TechnologyRegistryService technologyRegistryService, ConfirmationsService confirmationsService, EmailService emailService, TokenEmailService tokenEmailService) {
         UserFinderService userFinderService = new UserFinderService(userRepository);
         UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository, passwordEncoder, confirmationsService, emailService, tokenEmailService);
-        return new UserFacade(userRegistrationService, userFinderService, technologyRegistryService);
+        return new UserFacade(userRegistrationService, userFinderService);
     }
 
     @Bean
     UserRegistration userRegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder, ConfirmationsService confirmationsService, EmailService emailService, TokenEmailService tokenEmailService) {
         return new UserRegistrationService(userRepository, passwordEncoder, confirmationsService, emailService, tokenEmailService);
+    }
+
+    @Bean
+    LoginSuccessListener loginSuccessListener(UserRepository userRepository) {
+        return new LoginSuccessListener(userRepository);
     }
 }

@@ -1,34 +1,46 @@
 package com.labwithcommunity.domain.user;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TokenEmailService {
 
-    @CachePut(value = "registerTokens", key = "#email")
+    private final CacheManager cacheManager;
+
     public String createRegisterToken(String email) {
-        String token = generateToken();
-        log.info("Creating register token for email: {}", email);
+        String token = Long.toHexString(System.currentTimeMillis());
+        Cache cache = cacheManager.getCache("registerTokens");
+        if (cache != null) {
+            cache.put(token, email);
+        }
+        log.info("Generated token for email {}", email);
         return token;
     }
 
-    @Cacheable(value = "registerTokens", key = "#email")
-    public String getRegisterToken(String email) {
-        log.info("Retrieving register token for email: {}", email);
+    @Cacheable(value = "registerTokens", key = "#token")
+    public String getEmailByToken(String token) {
+        log.info("Retrieving email for token {}", token);
+        Cache cache = cacheManager.getCache("registerTokens");
+        if (cache != null) {
+            Cache.ValueWrapper valueWrapper = cache.get(token);
+            return valueWrapper != null ? (String) valueWrapper.get() : null;
+        }
         return null;
     }
 
-    @CacheEvict(value = "registerTokens", key = "#email")
     public void invalidateRegisterToken(String email) {
-        log.info("Token for email {} has been invalidated", email);
-    }
-
-    private String generateToken() {
-        return java.util.UUID.randomUUID().toString();
+        log.info("Invalidating token for email {}", email);
+        Cache cache = cacheManager.getCache("registerTokens");
+        if (cache!= null) {
+            cache.evict(email);
+        }
     }
 }

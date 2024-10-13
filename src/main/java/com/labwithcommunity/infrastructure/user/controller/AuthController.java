@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 class AuthController {
 
     private final UserFacade userFacade;
+//    private final TokenEmailService tokenEmailService;
 
     @PostMapping("/register")
     public ResponseEntity<UserCreateResponseDto> registerUser(@RequestBody @Valid UserCreateDto userCreateDto) {
@@ -23,13 +24,8 @@ class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateResponseDto);
     }
 
-    // TODO: implement password reset feature
-//    @PostMapping("/request-change-password")
-//    }
-
-
-    // TODO: implement password change feature
-//    @PostMapping("/change-password")
-//    }
-
+    @GetMapping("/email/approve")
+    public String approveRegisterEmail(@RequestParam("token") String token) {
+        return userFacade.approveRegisterEmail(token);
+    }
 }
