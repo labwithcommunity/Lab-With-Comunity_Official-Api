@@ -23,8 +23,13 @@ class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateResponseDto);
     }
 
-    @GetMapping("/email/approve")
-    public String approveRegisterEmail(@RequestParam("token") String token) {
-        return userFacade.approveRegisterEmail(token);
-    }
+    // TODO: implement password reset feature
+//    @PostMapping("/request-change-password")
+//    }
+
+
+    // TODO: implement password change feature
+//    @PostMapping("/change-password")
+//    }
+
 }

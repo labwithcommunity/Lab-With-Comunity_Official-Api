@@ -28,7 +28,7 @@ class UserFinderService implements UserFinder{
 
     @Override
     public GetLoggedUserDto getLoggedUser(String username) {
-        return userRepository.findUsernameAndPasswordByUsername(username)
+        return userRepository.findUsernameAndPasswordByNickname(username)
                 .orElseThrow(() -> new UserNotFoundException(UserExceptionMessages.USER_NOT_FOUND.getMessage()));
     }
 
