@@ -1,13 +1,15 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.FindProjectsDto;
-import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
-import com.labwithcommunity.domain.project.exception.ProjectExceptionMessages;
-import com.labwithcommunity.domain.project.exception.ProjectNotFoundException;
-import com.labwithcommunity.domain.project.exception.UserSignedToProjectException;
+import com.labwithcommunity.domain.project.dto.project.ProjectFetchDto;
+import com.labwithcommunity.domain.project.exception.project.ProjectExceptionMessages;
+import com.labwithcommunity.domain.project.exception.project.ProjectNotFoundException;
+import com.labwithcommunity.domain.project.exception.project.UserSignedToProjectException;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,7 +27,7 @@ class ProjectFinderService implements ProjectFinder {
         List<ProjectEntity> projectEntities = projectRepository.findAllByCreatorid(queryUser)
                 .orElseThrow(() -> new ProjectNotFoundException(
                         ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
-               // ProjectMapper.mapToProjectFetchDtoList(projectEntities);
+        // ProjectMapper.mapToProjectFetchDtoList(projectEntities);
         return null;
     }
 
@@ -44,7 +46,7 @@ class ProjectFinderService implements ProjectFinder {
     }
 
     private void validateUserNotAssignedToProject(UserQueryDto user, Long id) {
-        if (projectRepository.existsByParticipantsContainingAndId(user, id)) {
+        if (projectRepository.existsByParticipantsContainingAndProjectId(user, id)) {
             throw new UserSignedToProjectException(ProjectExceptionMessages.USER_ALREADY_SIGNED_TO_PROJECT.getMessage());
         }
     }
@@ -62,13 +64,14 @@ class ProjectFinderService implements ProjectFinder {
                 projectRepository.findProjectsByParticipant(queryUser)
                         .orElseThrow(() -> new ProjectNotFoundException(
                                 ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
-             //   ProjectMapper.mapToProjectFetchDtoList(projects);
+        //   ProjectMapper.mapToProjectFetchDtoList(projects);
         return null;
     }
 
     @Override
-    public List<ProjectFetchDto> listAllProjects() {
-        List<ProjectEntity> allProjects = projectRepository.findAll();
-        return ProjectMapper.mapToProjectFetchDtoList(allProjects);
+    public Page<ProjectFetchDto> listAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
+        Page<ProjectEntity> projectPage = projectRepository.findAllByFilters(creatorid, methodology, license, pageable);
+        List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent());
+        return new PageImpl<>(dto, pageable, projectPage.getTotalElements());
     }
 }

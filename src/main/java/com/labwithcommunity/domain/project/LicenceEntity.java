@@ -1,11 +1,15 @@
 package com.labwithcommunity.domain.project;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity @Table(name = "licences")
 @Getter @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 class LicenceEntity {
 
     @Id

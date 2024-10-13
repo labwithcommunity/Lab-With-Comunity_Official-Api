@@ -1,7 +1,6 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.MethodologyCreateDto;
-import io.swagger.v3.oas.annotations.servers.Server;
+import com.labwithcommunity.domain.project.dto.methodology.MethodologyCreateDto;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,7 +18,7 @@ class MethodologyService {
     MethodologyCreateDto createMethodology(MethodologyCreateDto methodologyCreateDto) {
 
         methodologyRepository.save(new MethodologyEntity(
-                methodologyCreateDto.name()
+                methodologyCreateDto.methodologyName()
         ));
         return methodologyCreateDto;
     }

@@ -1,8 +1,8 @@
 package com.labwithcommunity.infrastructure.validation;
 
-import com.labwithcommunity.domain.project.exception.ProjectNotFoundException;
-import com.labwithcommunity.domain.project.exception.ProjectTitleAlreadyExistException;
-import com.labwithcommunity.domain.project.exception.UserSignedToProjectException;
+import com.labwithcommunity.domain.project.exception.project.ProjectNotFoundException;
+import com.labwithcommunity.domain.project.exception.project.ProjectTitleAlreadyExistException;
+import com.labwithcommunity.domain.project.exception.project.UserSignedToProjectException;
 import com.labwithcommunity.domain.user.exception.PasswordMismatchException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;

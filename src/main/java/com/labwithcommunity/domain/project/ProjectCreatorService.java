@@ -1,9 +1,9 @@
 package com.labwithcommunity.domain.project;
 
-import com.labwithcommunity.domain.project.dto.ProjectCreateDto;
-import com.labwithcommunity.domain.project.dto.ProjectFetchDto;
-import com.labwithcommunity.domain.project.exception.ProjectExceptionMessages;
-import com.labwithcommunity.domain.project.exception.ProjectTitleAlreadyExistException;
+import com.labwithcommunity.domain.project.dto.project.ProjectCreateDto;
+import com.labwithcommunity.domain.project.dto.project.ProjectFetchDto;
+import com.labwithcommunity.domain.project.exception.project.ProjectExceptionMessages;
+import com.labwithcommunity.domain.project.exception.project.ProjectTitleAlreadyExistException;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
