@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +27,9 @@ class UserRegistrationService implements UserRegistration {
     private final ConfirmationsService confirmationsService;
     private final EmailService emailService;
     private final TokenEmailService tokenEmailService;
+
+    @Value("${scheduling.blockUnconfirmedUsers.fixedRate}")
+    private String blockUnconfirmedUsersFixedRate;
 
     @Override
     public UserCreateResponseDto register(UserCreateDto userCreateDto) {
@@ -111,7 +116,7 @@ class UserRegistrationService implements UserRegistration {
         return true;
     }
     @Override
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRateString = "${scheduling.blockUnconfirmedUsers.fixedRate}")
     public void blockUnconfirmedUsers() {
         List<UserEntity> users = userRepository.findAll();
         for (UserEntity userEntity : users) {

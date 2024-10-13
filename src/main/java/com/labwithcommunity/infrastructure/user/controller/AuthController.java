@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 class AuthController {
 
     private final UserFacade userFacade;
-//    private final TokenEmailService tokenEmailService;
 
     @PostMapping("/register")
     public ResponseEntity<UserCreateResponseDto> registerUser(@RequestBody @Valid UserCreateDto userCreateDto) {

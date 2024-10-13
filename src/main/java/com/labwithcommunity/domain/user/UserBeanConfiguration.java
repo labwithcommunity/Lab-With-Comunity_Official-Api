@@ -8,13 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class UserBeanConfiguration {
 
     @Bean
-    TechnologyRegistryService technologyRegistryService(UserRepository userRepository) {
-        UserFinderService userFinderService = new UserFinderService(userRepository);
-        return new TechnologyRegistryService();
-    }
-
-    @Bean
-    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder, TechnologyRegistryService technologyRegistryService, ConfirmationsService confirmationsService, EmailService emailService, TokenEmailService tokenEmailService) {
+    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder, ConfirmationsService confirmationsService, EmailService emailService, TokenEmailService tokenEmailService) {
         UserFinderService userFinderService = new UserFinderService(userRepository);
         UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository, passwordEncoder, confirmationsService, emailService, tokenEmailService);
         return new UserFacade(userRegistrationService, userFinderService);
@@ -29,4 +23,8 @@ class UserBeanConfiguration {
     LoginSuccessListener loginSuccessListener(UserRepository userRepository) {
         return new LoginSuccessListener(userRepository);
     }
-}
+    @Bean
+    ConfirmationsService confirmationsService(ConfirmationsRepository confirmationsRepository) {
+        return new ConfirmationsService(confirmationsRepository);
+    }
+ }
