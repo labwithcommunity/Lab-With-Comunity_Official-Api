@@ -1,13 +1,13 @@
 package com.labwithcommunity.infrastructure.email;
 
-import com.labwithcommunity.domain.user.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SmtpEmailService implements EmailService {
+class SmtpEmailService implements EmailService {
+
     private final JavaMailSender mailSender;
 
     @Value("${email.sender}")

@@ -5,12 +5,11 @@ import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.exception.PasswordMismatchException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
+import com.labwithcommunity.infrastructure.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.beans.factory.annotation.Value;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,9 +26,6 @@ class UserRegistrationService implements UserRegistration {
     private final ConfirmationsService confirmationsService;
     private final EmailService emailService;
     private final TokenEmailService tokenEmailService;
-
-    @Value("${scheduling.blockUnconfirmedUsers.fixedRate}")
-    private String blockUnconfirmedUsersFixedRate;
 
     @Override
     public UserCreateResponseDto register(UserCreateDto userCreateDto) {
@@ -105,7 +101,7 @@ class UserRegistrationService implements UserRegistration {
 
     private boolean approveUserByEmail(String email) {
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
-        if (!optionalUserEntity.isPresent()) {
+        if (optionalUserEntity.isEmpty()) {
             log.warn("User not found by email: {}", email);
             return false;
         }
@@ -115,6 +111,7 @@ class UserRegistrationService implements UserRegistration {
         log.info("User {} has been approved by email.", userEntity.getUsername());
         return true;
     }
+
     @Override
     @Scheduled(fixedRateString = "${scheduling.blockUnconfirmedUsers.fixedRate}")
     public void blockUnconfirmedUsers() {

@@ -7,8 +7,6 @@ import com.labwithcommunity.domain.project.exception.licence.LicenceNotFoundExce
 import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Server
 class LicenceService {

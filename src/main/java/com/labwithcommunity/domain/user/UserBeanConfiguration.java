@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.infrastructure.email.EmailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
