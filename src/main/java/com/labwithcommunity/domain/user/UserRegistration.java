@@ -7,4 +7,6 @@ interface UserRegistration {
 
     UserCreateResponseDto register(UserCreateDto userCreateDto);
     boolean isUsernameExist(String username);
+    String approveRegisterEmail(String token);
+    void blockUnconfirmedUsers();
 }

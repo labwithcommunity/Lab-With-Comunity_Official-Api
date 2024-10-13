@@ -8,20 +8,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class UserBeanConfiguration {
 
     @Bean
-    TechnologyRegistryService technologyRegistryService(UserRepository userRepository) {
+    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder, ConfirmationsService confirmationsService, EmailService emailService, TokenEmailService tokenEmailService) {
         UserFinderService userFinderService = new UserFinderService(userRepository);
-        return new TechnologyRegistryService();
+        UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository, passwordEncoder, confirmationsService, emailService, tokenEmailService);
+        return new UserFacade(userRegistrationService, userFinderService);
     }
 
     @Bean
-    UserFacade userFacade(UserRepository userRepository, PasswordEncoder passwordEncoder,TechnologyRegistryService technologyRegistryService) {
-        UserFinderService userFinderService = new UserFinderService(userRepository);
-        UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository,passwordEncoder);
-        return new UserFacade(userRegistrationService,userFinderService,technologyRegistryService);
+    UserRegistration userRegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder, ConfirmationsService confirmationsService, EmailService emailService, TokenEmailService tokenEmailService) {
+        return new UserRegistrationService(userRepository, passwordEncoder, confirmationsService, emailService, tokenEmailService);
     }
 
     @Bean
-    UserRegistration userRegistrationService(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
-        return new UserRegistrationService(userRepository, passwordEncoder);
+    LoginSuccessListener loginSuccessListener(UserRepository userRepository) {
+        return new LoginSuccessListener(userRepository);
     }
-}
+    @Bean
+    ConfirmationsService confirmationsService(ConfirmationsRepository confirmationsRepository) {
+        return new ConfirmationsService(confirmationsRepository);
+    }
+ }

@@ -29,42 +29,15 @@ class UserEntity implements UserDetails {
     private String email;
     private boolean isAdmin;
     private boolean isApproved;
-    private boolean isLocked;
-    private LocalDateTime createdAt;
+    private boolean isActive;
     private LocalDateTime lastLogin;
 
-
-//    @EqualsAndHashCode.Exclude
-//    @ElementCollection
-//    private Set<Technologies> technologies = new HashSet<>();
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private ConfirmationEntity confirmationEntity;
 
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProjectQueryDto> ownedProjects = new ArrayList<>();
-
-    public UserEntity(String nickname, String password, String email) {
-        this.username = nickname;
-        this.nickname = nickname;
-        this.password = password;
-        this.email = email;
-    }
-
-//    public void removeTechnologyFromUser(ProgrammingLanguage programmingLanguage,
-//                                         Set<TechnologiesForProgrammingLanguage> technologyToRemove) {
-//        Technologies technologies = this.technologies.stream()
-//                .filter(t -> t.getProgrammingLanguage().equals(programmingLanguage))
-//                .findFirst()
-//                .orElseThrow(() -> new UserTechnologyNotFoundException(UserExceptionMessages.TECHNOLOGY_NOT_FOUND.getMessage()));
-//        technologies.removeTechnology(technologyToRemove);
-//        isTechnologyEmpty(technologies);
-//    }
-//
-//    private void isTechnologyEmpty(Technologies technologies) {
-//        if (technologies.isEmpty()) {
-//            this.technologies.remove(technologies);
-//        }
-//    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
