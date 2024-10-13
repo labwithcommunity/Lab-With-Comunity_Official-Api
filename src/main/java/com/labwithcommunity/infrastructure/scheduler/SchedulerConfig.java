@@ -1,4 +1,4 @@
-package com.labwithcommunity.infrastructure.configs;
+package com.labwithcommunity.infrastructure.scheduler;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;

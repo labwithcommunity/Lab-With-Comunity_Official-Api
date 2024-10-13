@@ -1,4 +1,4 @@
-package com.labwithcommunity.domain.user;
+package com.labwithcommunity.infrastructure.email;
 
 public interface EmailService {
 
