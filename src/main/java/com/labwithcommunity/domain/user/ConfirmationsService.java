@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 class ConfirmationsService {
 
-    private ConfirmationsRepository confirmationsRepository;
+    private final ConfirmationsRepository confirmationsRepository;
 
     public ConfirmationsService(ConfirmationsRepository confirmationsRepository) {
         this.confirmationsRepository = confirmationsRepository;

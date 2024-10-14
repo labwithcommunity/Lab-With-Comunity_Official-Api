@@ -10,13 +10,23 @@ services:
     depends_on:
       - mysql-db
     ports:
-      - "8080:8080"
+      - "8880:8080"
     networks:
       - db-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/dev
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3308/dev
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_ENCRYPTION: ${SMTP_ENCRYPTION}
+      SMTP_AUTH: ${SMTP_AUTH}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_NAME: ${SMTP_NAME}
+      SMTP_QUEUE_TIME: ${SMTP_QUEUE_TIME}
 
   mysql-db:
     image: mysql:8.0
@@ -24,8 +34,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: dev
       MYSQL_DATABASE: dev
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
+      MYSQL_PASSWORD: ${SPRING_DATASOURCE_USERNAME}
     ports:
       - "3308:3306"
     volumes:
