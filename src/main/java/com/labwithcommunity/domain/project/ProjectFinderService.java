@@ -71,7 +71,13 @@ class ProjectFinderService implements ProjectFinder {
     @Override
     public Page<ProjectFetchDto> listAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
         Page<ProjectEntity> projectPage = projectRepository.findAllByFilters(creatorid, methodology, license, pageable);
-        List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent());
+        List<String> listOfTags = projectPage.getContent().stream()
+                .map(assigned -> assigned.getTags()
+                        .stream()
+                        .map(tag -> tag.getTag().getName())
+                        .toString())
+                .toList();
+        List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent(),listOfTags);
         return new PageImpl<>(dto, pageable, projectPage.getTotalElements());
     }
 }
