@@ -1,6 +1,7 @@
 package com.labwithcommunity.infrastructure.user.controller;
 
 import com.labwithcommunity.domain.user.UserFacade;
+import com.labwithcommunity.domain.user.dto.PasswordChangeRequestDTO;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import jakarta.validation.Valid;
@@ -26,5 +27,11 @@ class AuthController {
     @GetMapping("/email/approve")
     public String approveRegisterEmail(@RequestParam("token") String token) {
         return userFacade.approveRegisterEmail(token);
+    }
+
+    @PostMapping("email/request-change-password")
+    public ResponseEntity<?> requestChangePassword(@Valid @RequestBody PasswordChangeRequestDTO passwordChangeRequestDTO) {
+        userFacade.requestPasswordChange(passwordChangeRequestDTO);
+        return new ResponseEntity<>(passwordChangeRequestDTO, HttpStatus.ACCEPTED);
     }
 }

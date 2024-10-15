@@ -1,9 +1,6 @@
 package com.labwithcommunity.domain.user;
 
-import com.labwithcommunity.domain.user.dto.GetLoggedUserDto;
-import com.labwithcommunity.domain.user.dto.UserCreateDto;
-import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
-import com.labwithcommunity.domain.user.dto.UserResponseDto;
+import com.labwithcommunity.domain.user.dto.*;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
 
@@ -31,5 +28,9 @@ public class UserFacade {
 
     public String approveRegisterEmail(String token) {
         return userRegistration.approveRegisterEmail(token);
+    }
+
+    public void requestPasswordChange(PasswordChangeRequestDTO passwordChangeRequestDTO) {
+        userRegistration.requestPasswordChange(passwordChangeRequestDTO);
     }
 }

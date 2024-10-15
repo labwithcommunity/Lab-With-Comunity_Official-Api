@@ -1,5 +1,6 @@
 package com.labwithcommunity.infrastructure.email;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 @Component
+@Slf4j
 class MailCommunicationService implements EmailService {
 
     private final JavaMailSender mailSender;
@@ -22,6 +24,9 @@ class MailCommunicationService implements EmailService {
     @Value("${smtp.queue.time}")
     private long smtpQueueTime;
 
+    @Value("${change.password.url}")
+    private String changePasswordUrl;
+
     private final Queue<SimpleMailMessage> emailQueue = new LinkedList<>();
 
     public MailCommunicationService(JavaMailSender mailSender) {
@@ -29,13 +34,27 @@ class MailCommunicationService implements EmailService {
         startEmailQueueProcessor();
     }
     @Override
-    public void sendRegisterEmail(String recipient, String token) {
+    public void sendRegisterEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(recipient);
+        message.setTo(email);
         message.setFrom(emailSender);
         message.setSubject("Registration Confirmation");
         message.setText("Please confirm your registration by clicking the following link: "+ registerUrlApprove + token);
-        mailSender.send(message);
+        enqueueEmail(message);
+    }
+
+    @Override
+    public void sendPasswordResetEmail(String email, String resetToken)  {
+        log.info("Starting to send password reset email to: {}", email);
+
+        String changePasswordUrlWithParams = changePasswordUrl + resetToken + "&email=" + email;
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom(emailSender);
+        message.setSubject("Password Reset Request");
+        message.setText("Please confirm your password change request by clicking the link below: "+ changePasswordUrlWithParams);
+        enqueueEmail(message);
     }
 
     private void enqueueEmail(SimpleMailMessage message) {
@@ -68,4 +87,6 @@ class MailCommunicationService implements EmailService {
         emailProcessorThread.setDaemon(true);
         emailProcessorThread.start();
     }
+
+
 }

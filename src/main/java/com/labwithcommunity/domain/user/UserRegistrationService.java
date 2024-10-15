@@ -1,10 +1,12 @@
 package com.labwithcommunity.domain.user;
 
+import com.labwithcommunity.domain.user.dto.PasswordChangeRequestDTO;
 import com.labwithcommunity.domain.user.dto.UserCreateDto;
 import com.labwithcommunity.domain.user.dto.UserCreateResponseDto;
 import com.labwithcommunity.domain.user.exception.PasswordMismatchException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserExceptionMessages;
+import com.labwithcommunity.domain.user.exception.UserNotFoundException;
 import com.labwithcommunity.infrastructure.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ class UserRegistrationService implements UserRegistration {
     private final ConfirmationsService confirmationsService;
     private final EmailService emailService;
     private final TokenEmailService tokenEmailService;
+    private final TokenResetPasswordService tokenResetPasswordService;
 
     @Override
     public UserCreateResponseDto register(UserCreateDto userCreateDto) {
@@ -123,5 +126,19 @@ class UserRegistrationService implements UserRegistration {
                 userRepository.save(userEntity);
             }
         }
+    }
+
+    @Override
+    public void requestPasswordChange(PasswordChangeRequestDTO passwordChangeRequestDTO) {
+        UserEntity userEntity= userRepository.findByEmail(passwordChangeRequestDTO.getEmail())
+                .orElseThrow(() -> {
+                    log.error("User not found for email: {}", passwordChangeRequestDTO.getEmail());
+                    return new UserNotFoundException("User not found for email: " + passwordChangeRequestDTO.getEmail());
+                });
+
+        String passwordResetToken = tokenResetPasswordService.createPasswordResetToken(userEntity.getEmail());
+        emailService.sendPasswordResetEmail(userEntity.getEmail(), passwordResetToken);
+
+        log.debug("Request for password reset received for email: {}, but no action taken.", passwordChangeRequestDTO.getEmail());
     }
 }

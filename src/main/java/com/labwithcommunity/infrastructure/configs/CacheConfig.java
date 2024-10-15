@@ -21,6 +21,11 @@ public class CacheConfig {
                 .maximumSize(500)
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .build());
+        cacheManager.registerCustomCache("passwordResetTokens", Caffeine.newBuilder()
+                .initialCapacity(100)
+                .maximumSize(500)
+                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .build());
         return cacheManager;
     }
 }

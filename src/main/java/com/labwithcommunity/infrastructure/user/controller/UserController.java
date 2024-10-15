@@ -29,18 +29,4 @@ class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-//    @PutMapping("/technologies")
-//    public ResponseEntity<UserResponseDto> updateTechnologies(
-//            @AuthenticationPrincipal UserDetails principal,
-//            @RequestBody Set<UserTechnologyDto> userTechnologyDto) {
-//        String username = principal.getUsername();
-//        UserResponseDto updatedUserResponseDto = userFacade.updateTechnologyOfUser(userTechnologyDto, username);
-//        return ResponseEntity.ok(updatedUserResponseDto);
-//    }
-
-//    @PutMapping("/role")
-//    public ResponseEntity<Boolean> addRoleToUser(@RequestParam String username, @RequestBody Set<UserMemberRoles> role) {
-//        boolean isAdded = userFacade.addRolesToUser(role, username);
-//        return ResponseEntity.ok(isAdded);
-//    }
 }
