@@ -1,14 +1,13 @@
 package com.labwithcommunity.domain.user;
 
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@RequiredArgsConstructor
 class ConfirmationsService {
 
     private final ConfirmationsRepository confirmationsRepository;
-
-    public ConfirmationsService(ConfirmationsRepository confirmationsRepository) {
-        this.confirmationsRepository = confirmationsRepository;
-    }
 
     void addConfirmation(UserEntity userEntity) {
         ConfirmationEntity confirmationEntity = new ConfirmationEntity();
