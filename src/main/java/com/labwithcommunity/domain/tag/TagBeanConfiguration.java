@@ -8,13 +8,17 @@ import org.springframework.context.annotation.Configuration;
 class TagBeanConfiguration {
 
     @Bean
-    TagService tagService(TagRepository tagRepository, UserFacade userFacade) {
-        return new TagService(tagRepository,userFacade);
+    AssignedTagService assignedTagService(AssignedTagRepository assignedTagRepository, TagService tagService) {
+        return new AssignedTagService(assignedTagRepository, tagService);
     }
 
     @Bean
-    TagFacade tagFacade(TagService tagService,AssignedTagRepository assignedTagRepository) {
-        AssignedTagService assignedTagService = new AssignedTagService(assignedTagRepository);
-        return new TagFacade(tagService, assignedTagService);
+    TagService tagService(TagRepository tagRepository) {
+        return new TagService(tagRepository);
+    }
+
+    @Bean
+    TagFacade tagFacade(TagService tagService,AssignedTagService assignedTagRepository) {
+        return new TagFacade(tagService, assignedTagRepository);
     }
 }

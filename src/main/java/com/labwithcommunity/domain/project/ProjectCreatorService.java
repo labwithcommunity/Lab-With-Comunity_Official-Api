@@ -7,13 +7,13 @@ import com.labwithcommunity.domain.project.exception.project.ProjectExceptionMes
 import com.labwithcommunity.domain.project.exception.project.ProjectTitleAlreadyExistException;
 import com.labwithcommunity.domain.tag.TagFacade;
 import com.labwithcommunity.domain.tag.dto.AssignedTagCreateDto;
-import com.labwithcommunity.domain.tag.dto.TagCreateDto;
 import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
 import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,34 +30,21 @@ class ProjectCreatorService implements ProjectCreator {
 
 
     @Override
+    @Transactional
     public ProjectFetchDto createProject(ProjectCreateDto projectCreateDTO, String username) {
-        UserQueryDto creator = userFacade.getQueryUser(username);
         isExistByName(projectCreateDTO);
+        UserQueryDto creator = userFacade.getQueryUser(username);
         ProjectEntity project = buildProjectEntity(projectCreateDTO, creator);
-        ProjectEntity save = projectRepository.save(project);
-        ProjectQueryDto projectQueryDto = ProjectMapper.mapToQueryDto(save);
-        List<String> strings = addTagsInChain(projectCreateDTO, creator, projectQueryDto);
+        ProjectEntity savedProject = projectRepository.save(project);
+        ProjectQueryDto projectQueryDto = ProjectMapper.mapToQueryDto(project);
+        List<String> tags = tagFacade.addTags(projectCreateDTO, creator);
+
+        AssignedTagCreateDto assignedTagCreateDto = new AssignedTagCreateDto(tags, projectQueryDto, creator);
+        tagFacade.assignTag(assignedTagCreateDto);
+
         log.info("Created project {}", project.getName());
-        return ProjectMapper.mapToProjectFetchDto(project,strings);
+        return ProjectMapper.mapToProjectFetchDto(savedProject,tags);
     }
-
-    List<String> addTagsInChain(ProjectCreateDto projectCreateDTO,
-                                UserQueryDto creator,
-                                ProjectQueryDto projectQueryDto) {
-        List<String> tagNames = new ArrayList<>();
-
-        for (TagCreateDto tag : projectCreateDTO.tags()) {
-            TagQueryDto tagQueryDto = tagFacade.addNewTag(tag, creator);
-            AssignedTagCreateDto assignedTagCreateDto = new AssignedTagCreateDto(
-                    tagQueryDto, projectQueryDto, creator
-            );
-            tagFacade.assignTag(assignedTagCreateDto);
-            tagNames.add(tagQueryDto.getName());
-        }
-
-        return tagNames;
-    }
-
 
 
 

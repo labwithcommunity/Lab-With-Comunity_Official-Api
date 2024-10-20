@@ -52,9 +52,9 @@ class ProjectEntity {
     @EqualsAndHashCode.Exclude
     private RatingEntity ratingEntity;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
-    private List<AssignedTagQueryDto>tags= new ArrayList<>();
+    private List<AssignedTagQueryDto> tags = new ArrayList<>();
 
     public ProjectEntity(String name, String description,
                          MethodologyEntity methodology,

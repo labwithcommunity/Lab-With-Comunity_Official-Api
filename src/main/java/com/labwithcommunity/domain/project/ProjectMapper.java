@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 class ProjectMapper {
 
-    static ProjectFetchDto mapToProjectFetchDto(ProjectEntity projectEntity, List<String>tags) {
+    static ProjectFetchDto mapToProjectFetchDto(ProjectEntity projectEntity,List<String>tags) {
+
         return new ProjectFetchDto(
                 projectEntity.getProjectId(),
                 projectEntity.getName(),
@@ -20,13 +21,13 @@ class ProjectMapper {
                 projectEntity.getTracking(),
                 projectEntity.getMethodology().getMethodologyName(),
                 projectEntity.getLicence().getName(),
-                tags
+                tags // Przypisujemy listę nazw tagów
         );
     }
 
     static List<ProjectFetchDto> mapToProjectFetchDtoList(List<ProjectEntity> projectEntities,List<String>tags) {
         return projectEntities.stream()
-                .map(project -> mapToProjectFetchDto(project, tags))
+                .map(tag -> mapToProjectFetchDto(tag,tags))
                 .collect(Collectors.toList());
     }
 

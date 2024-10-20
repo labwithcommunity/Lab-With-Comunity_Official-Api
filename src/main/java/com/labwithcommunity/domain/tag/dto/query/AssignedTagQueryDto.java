@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity @Table(name = "assignedtags")
 @Getter
@@ -18,9 +20,14 @@ public class AssignedTagQueryDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long assignedId;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "assigned_tags",
+            joinColumns = @JoinColumn(name = "assigned_tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     @EqualsAndHashCode.Exclude
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private TagQueryDto tag;
+    private List<TagQueryDto> tags;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,8 +37,8 @@ public class AssignedTagQueryDto {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserQueryDto assignerId;
 
-    public AssignedTagQueryDto(TagQueryDto tag, ProjectQueryDto project, UserQueryDto assignerId) {
-        this.tag = tag;
+    public AssignedTagQueryDto(List<TagQueryDto> tags, ProjectQueryDto project, UserQueryDto assignerId) {
+        this.tags = tags;
         this.project = project;
         this.assignerId = assignerId;
     }

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity @Table(name = "tags")
+@Entity @Table(name = "tags",uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @Getter @Setter
 @EqualsAndHashCode
 @NoArgsConstructor

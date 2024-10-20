@@ -7,14 +7,15 @@ import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 class TagMapper {
 
     static TagEntity mapToEntity(TagCreateDto tagCreateDto,
-                                 UserQueryDto userQueryDto) {
+                                      UserQueryDto userQueryDto) {
         return new TagEntity(tagCreateDto.name(),
                                  userQueryDto);
     }
 
-    static TagQueryDto mapToEntity(TagEntity tagEntity,
-                                   UserQueryDto userQueryDto) {
+    static TagQueryDto mapToQueryEntity(TagEntity tagEntity,
+                                        UserQueryDto userQueryDto) {
         return new TagQueryDto(tagEntity.getName(),
                 userQueryDto);
     }
+
 }

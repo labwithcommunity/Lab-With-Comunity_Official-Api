@@ -12,7 +12,7 @@ class ProjectBeanConfiguration {
     ProjectFacade projectFacade(ProjectRepository projectRepository, UserFacade userFacade,
                                 LicenceRepository licenceRepository,
                                 MethodologyRepository methodologyRepository, TagFacade tagFacade) {
-        ProjectFinderService projectFinderService = new ProjectFinderService(projectRepository,userFacade);
+        ProjectFinderService projectFinderService = new ProjectFinderService(projectRepository,tagFacade,userFacade);
         LicenceService licenceService = new LicenceService(licenceRepository);
         MethodologyService methodologyService = new MethodologyService(methodologyRepository);
 
