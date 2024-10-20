@@ -77,15 +77,31 @@ class ProjectFinderService implements ProjectFinder {
     public Page<ProjectFetchDto> listAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
         Page<ProjectEntity> projectPage = projectRepository.findAllByFilters(creatorid, methodology, license, pageable);
 
-        List<String> list = projectPage.getContent().stream()
-                .flatMap(project -> {
-                    AssignedTagQueryDto ass = tagFacade.findAss(project.getProjectId());
-                    return ass.getTags().stream()
-                            .map(TagQueryDto::getName);
+        List<ProjectFetchDto> dto = projectPage.getContent().stream()
+                .map(project -> {
+                    AssignedTagQueryDto assignedTags = tagFacade.findAss(project.getProjectId());
+
+                    List<String> tagNames = assignedTags.getTags().stream()
+                            .map(TagQueryDto::getName)
+                            .toList();
+
+                    return new ProjectFetchDto(
+                            project.getProjectId(),
+                            project.getName(),
+                            project.getDescription(),
+                            project.getCreated(),
+                            project.getCreatorid().getNickname(),
+                            project.getWebsite(),
+                            project.getWiki(),
+                            project.getTracking(),
+                            project.getMethodology().getMethodologyName(),
+                            project.getLicence().getName(),
+                            tagNames
+                    );
                 })
                 .toList();
 
-        List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent(),list);
+        //List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent(),dt);
         return new PageImpl<>(dto, pageable, projectPage.getTotalElements());
     }
 }
