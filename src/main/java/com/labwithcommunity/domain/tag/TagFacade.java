@@ -21,10 +21,5 @@ public class TagFacade {
 
     public AssignedTagCreateDto assignTag(AssignedTagCreateDto assignedTagCreateDto){
         return assignedTagService.createAssignedToProject(assignedTagCreateDto);
-
-     }
-
-     public AssignedTagQueryDto findAss(Long id){
-        return assignedTagService.findAll(id);
      }
 }

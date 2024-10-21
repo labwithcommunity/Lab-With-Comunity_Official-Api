@@ -23,85 +23,24 @@ import java.util.stream.Stream;
 class ProjectFinderService implements ProjectFinder {
 
     private final ProjectRepository projectRepository;
-    private final TagFacade tagFacade;
-    private final UserFacade userFacade;
-
-    @Override
-    public List<ProjectFetchDto> getProjectByOwner(String owner) {
-        UserQueryDto queryUser = userFacade.getQueryUser(owner);
-        List<ProjectEntity> projectEntities = projectRepository.findAllByCreatorid(queryUser)
-                .orElseThrow(() -> new ProjectNotFoundException(
-                        ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
-        // ProjectMapper.mapToProjectFetchDtoList(projectEntities);
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public void signToProject(Long id, String username) {
-        UserQueryDto user = userFacade.getQueryUser(username);
-        validateUserProjectAssignment(user, id);
-        Optional<ProjectEntity> projectOpt = projectRepository.findById(id);
-        projectOpt.ifPresent(project -> project.getParticipants().add(user));
-    }
-
-    private void validateUserProjectAssignment(UserQueryDto user, Long id) {
-        validateUserNotAssignedToProject(user, id);
-        validateProjectExistsById(id);
-    }
-
-    private void validateUserNotAssignedToProject(UserQueryDto user, Long id) {
-        if (projectRepository.existsByParticipantsContainingAndProjectId(user, id)) {
-            throw new UserSignedToProjectException(ProjectExceptionMessages.USER_ALREADY_SIGNED_TO_PROJECT.getMessage());
-        }
-    }
-
-    private void validateProjectExistsById(Long id) {
-        if (!projectRepository.existsById(id)) {
-            throw new ProjectNotFoundException(ProjectExceptionMessages.PROJECT_ID_NOT_FOUND.getMessage());
-        }
-    }
-
-    @Override
-    public List<ProjectFetchDto> findByParticipant(String username) {
-        UserQueryDto queryUser = userFacade.getQueryUser(username);
-        List<ProjectEntity> projects =
-                projectRepository.findProjectsByParticipant(queryUser)
-                        .orElseThrow(() -> new ProjectNotFoundException(
-                                ProjectExceptionMessages.NO_PROJECTS_FOUND_FOR_GIVEN_USER.name()));
-        //   ProjectMapper.mapToProjectFetchDtoList(projects);
-        return null;
-    }
 
     @Override
     public Page<ProjectFetchDto> listAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
         Page<ProjectEntity> projectPage = projectRepository.findAllByFilters(creatorid, methodology, license, pageable);
 
-        List<ProjectFetchDto> dto = projectPage.getContent().stream()
-                .map(project -> {
-                    AssignedTagQueryDto assignedTags = tagFacade.findAss(project.getProjectId());
 
-                    List<String> tagNames = assignedTags.getTags().stream()
-                            .map(TagQueryDto::getName)
-                            .toList();
+//        List<ProjectFetchDto> dto = projectPage.getContent().stream()
+//                .map(project -> {
+//                    AssignedTagQueryDto assignedTags = tagFacade.findAss(project.getProjectId());
+//
+//                    List<String> tagNames = assignedTags.getTags().stream()
+//                            .map(TagQueryDto::getName)
+//                            .toList();
+//                   return ProjectMapper.mapToProjectFetchDto(project, tagNames);
+//                })
+//                .toList();
 
-                    return new ProjectFetchDto(
-                            project.getProjectId(),
-                            project.getName(),
-                            project.getDescription(),
-                            project.getCreated(),
-                            project.getCreatorid().getNickname(),
-                            project.getWebsite(),
-                            project.getWiki(),
-                            project.getTracking(),
-                            project.getMethodology().getMethodologyName(),
-                            project.getLicence().getName(),
-                            tagNames
-                    );
-                })
-                .toList();
-
-        //List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent(),dt);
+        List<ProjectFetchDto> dto = ProjectMapper.mapToProjectFetchDtoList(projectPage.getContent());
         return new PageImpl<>(dto, pageable, projectPage.getTotalElements());
     }
 }

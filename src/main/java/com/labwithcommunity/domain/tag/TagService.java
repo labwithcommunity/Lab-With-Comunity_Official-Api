@@ -2,7 +2,8 @@ package com.labwithcommunity.domain.tag;
 
 import com.labwithcommunity.domain.project.dto.project.ProjectCreateDto;
 import com.labwithcommunity.domain.tag.dto.TagCreateDto;
-import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
+import com.labwithcommunity.domain.tag.exception.TagExceptionMessages;
+import com.labwithcommunity.domain.tag.exception.TagNotFoundException;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,11 @@ class TagService {
 
 
     @Transactional
-     TagEntity findTagByName(String name) {
-        return tagRepository.findByName(name).orElse(null);
+    public List<TagEntity> findTagsByNameIn(List<String> tagNames) {
+        List<TagEntity> tags = tagRepository.findByNameIn(tagNames);
+        if (tags.size() != tagNames.size()) {
+            throw new TagNotFoundException(TagExceptionMessages.TAG_NOT_FOUND.getMessage());
+        }
+        return tags;
     }
 }

@@ -13,6 +13,7 @@ import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ class ProjectCreatorService implements ProjectCreator {
 
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public ProjectFetchDto createProject(ProjectCreateDto projectCreateDTO, String username) {
         isExistByName(projectCreateDTO);
         UserQueryDto creator = userFacade.getQueryUser(username);
@@ -38,16 +39,11 @@ class ProjectCreatorService implements ProjectCreator {
         ProjectEntity savedProject = projectRepository.save(project);
         ProjectQueryDto projectQueryDto = ProjectMapper.mapToQueryDto(project);
         List<String> tags = tagFacade.addTags(projectCreateDTO, creator);
-
         AssignedTagCreateDto assignedTagCreateDto = new AssignedTagCreateDto(tags, projectQueryDto, creator);
         tagFacade.assignTag(assignedTagCreateDto);
-
         log.info("Created project {}", project.getName());
-        return ProjectMapper.mapToProjectFetchDto(savedProject,tags);
+        return ProjectMapper.mapToProjectAfterCreate(savedProject,tags);
     }
-
-
-
 
     private ProjectEntity buildProjectEntity(ProjectCreateDto projectCreateDTO, UserQueryDto creator) {
         return new ProjectEntity(

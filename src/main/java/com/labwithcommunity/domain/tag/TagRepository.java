@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,5 +18,6 @@ interface TagRepository extends JpaRepository<TagEntity, Long> {
     @Query("SELECT t FROM TagEntity t WHERE t.name = :name")
     Optional<TagEntity> findByName(String name);
 
+    List<TagEntity> findByNameIn(List<String> tagNames);
 
 }

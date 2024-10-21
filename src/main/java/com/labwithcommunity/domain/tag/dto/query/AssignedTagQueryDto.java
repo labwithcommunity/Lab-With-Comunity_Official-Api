@@ -30,7 +30,7 @@ public class AssignedTagQueryDto {
     private List<TagQueryDto> tags;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ProjectQueryDto project;
 
     @EqualsAndHashCode.Exclude
