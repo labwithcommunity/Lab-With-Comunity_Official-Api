@@ -8,8 +8,5 @@ import java.util.List;
 
 interface ProjectFinder {
 
-    List<ProjectFetchDto> getProjectByOwner(String owner);
-    void signToProject(Long id, String username);
-    List<ProjectFetchDto> findByParticipant(String username);
     Page<ProjectFetchDto> listAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable);
 }

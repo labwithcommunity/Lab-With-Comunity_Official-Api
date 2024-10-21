@@ -3,6 +3,8 @@ package com.labwithcommunity.infrastructure.validation;
 import com.labwithcommunity.domain.project.exception.project.ProjectNotFoundException;
 import com.labwithcommunity.domain.project.exception.project.ProjectTitleAlreadyExistException;
 import com.labwithcommunity.domain.project.exception.project.UserSignedToProjectException;
+import com.labwithcommunity.domain.tag.exception.AssignedAlreadyToProject;
+import com.labwithcommunity.domain.tag.exception.TagAlreadyExistException;
 import com.labwithcommunity.domain.user.exception.PasswordMismatchException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
@@ -37,8 +39,21 @@ class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(TagAlreadyExistException.class)
+    public ResponseEntity<Object> handleTagAlreadyExistException(TagAlreadyExistException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ProjectTitleAlreadyExistException.class)
     public ResponseEntity<Object> handleProjectTitleAlreadyExistException(ProjectTitleAlreadyExistException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(AssignedAlreadyToProject.class)
+    public ResponseEntity<Object> handlePAssignedAlreadyToProject(AssignedAlreadyToProject ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
