@@ -30,25 +30,6 @@ class ProjectController {
         return ResponseEntity.ok(project);
     }
 
-    @GetMapping("/my")
-    ResponseEntity<List<ProjectFetchDto>> findProjectByOwner(@AuthenticationPrincipal UserDetails userDetails) {
-        List<ProjectFetchDto> projectByOwner = projectFacade.findProjectByOwner(userDetails.getUsername());
-        return ResponseEntity.ok(projectByOwner);
-    }
-
-    @PostMapping("sub/{id}")
-    ResponseEntity<Boolean> signToProject(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        projectFacade.signToProject(id, userDetails.getUsername());
-        return ResponseEntity.ok().build();
-    }
-
-//    @GetMapping
-//    ResponseEntity<List<ProjectFetchDto>>findMyProjects(@AuthenticationPrincipal UserDetails userDetails ) {
-//        String username = userDetails.getUsername();
-//        List<ProjectFetchDto> byUserInProject = projectFacade.findByUserInProject(username);
-//        return ResponseEntity.ok(byUserInProject);
-//    }
-
     @GetMapping
     public ResponseEntity<Page<ProjectFetchDto>> listAllProjects(
             @RequestParam(required = false) Long user,

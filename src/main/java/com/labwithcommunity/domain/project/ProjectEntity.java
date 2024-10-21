@@ -1,5 +1,6 @@
 package com.labwithcommunity.domain.project;
 
+import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,7 +8,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,7 +49,12 @@ class ProjectEntity {
     private Set<UserQueryDto> participants = new HashSet<>();
 
     @OneToOne(mappedBy = "project")
+    @EqualsAndHashCode.Exclude
     private RatingEntity ratingEntity;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private List<AssignedTagQueryDto> tags = new ArrayList<>();
 
     public ProjectEntity(String name, String description,
                          MethodologyEntity methodology,

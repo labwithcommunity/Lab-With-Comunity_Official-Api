@@ -1,6 +1,7 @@
 package com.labwithcommunity.domain.user;
 
 import com.labwithcommunity.domain.project.dto.project.query.ProjectQueryDto;
+import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
