@@ -5,6 +5,7 @@ import com.labwithcommunity.domain.project.exception.project.ProjectTitleAlready
 import com.labwithcommunity.domain.project.exception.project.UserSignedToProjectException;
 import com.labwithcommunity.domain.tag.exception.AssignedAlreadyToProject;
 import com.labwithcommunity.domain.tag.exception.TagAlreadyExistException;
+import com.labwithcommunity.domain.technology.exception.TechnologyNotFoundException;
 import com.labwithcommunity.domain.user.exception.PasswordMismatchException;
 import com.labwithcommunity.domain.user.exception.UserAlreadyExistsException;
 import com.labwithcommunity.domain.user.exception.UserTechnologyNotFoundException;
@@ -41,6 +42,13 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(TagAlreadyExistException.class)
     public ResponseEntity<Object> handleTagAlreadyExistException(TagAlreadyExistException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(TechnologyNotFoundException.class)
+    public ResponseEntity<Object> handleTTechnologyNotFoundException(TechnologyNotFoundException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);

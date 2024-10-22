@@ -4,6 +4,7 @@ import com.labwithcommunity.domain.technology.dto.TechnologyCreateDto;
 import com.labwithcommunity.domain.technology.dto.TechnologyDto;
 import com.labwithcommunity.domain.technology.exception.TechnologyAlreadyExistException;
 import com.labwithcommunity.domain.technology.exception.TechnologyExceptionMessages;
+import com.labwithcommunity.domain.technology.exception.TechnologyNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,7 +25,8 @@ class TechnologyService {
 
     void confirmIfExistByName(String name){
         if (isTechnologyExist(name)) {
-            throw new TechnologyAlreadyExistException(TechnologyExceptionMessages.TECHNOLOGY_ALREADY_EXIST.getMessage());
+            throw new TechnologyAlreadyExistException(
+                    TechnologyExceptionMessages.TECHNOLOGY_ALREADY_EXIST.getMessage());
         }
     }
 
@@ -33,8 +35,9 @@ class TechnologyService {
     }
 
     TechnologyEntity findTechnologyById(long id){
-        //todo handling null
-        return technologyRepository.findById(id).orElseThrow();
+        return technologyRepository.findById(id)
+                .orElseThrow(()-> new TechnologyNotFoundException(
+                        TechnologyExceptionMessages.TECHNOLOGY_NOT_FOUND.getMessage()));
 
 
     }
