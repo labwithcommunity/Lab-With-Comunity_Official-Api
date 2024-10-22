@@ -1,16 +1,16 @@
-package com.labwithcommunity.domain.technology;
+package com.labwithcommunity.domain.technology.dto.query;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity @Table(name = "technologies")
+@Entity
+@Table(name = "technologies")
 @NoArgsConstructor
-@Getter @Setter
+@Getter
 @EqualsAndHashCode
-class TechnologyEntity {
+public class TechnologyQueryDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,14 +18,6 @@ class TechnologyEntity {
 
     private String shortName;
     private String name;
-
     @EqualsAndHashCode.Exclude
     private String description;
-
-
-    public TechnologyEntity(String shortName, String name, String description) {
-        this.shortName = shortName;
-        this.name = name;
-        this.description = description;
-    }
 }

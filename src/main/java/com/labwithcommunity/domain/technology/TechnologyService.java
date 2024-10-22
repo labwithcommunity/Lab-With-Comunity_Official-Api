@@ -31,4 +31,11 @@ class TechnologyService {
     boolean isTechnologyExist(String technologyName) {
         return technologyRepository.existsByName(technologyName);
     }
+
+    TechnologyEntity findTechnologyById(long id){
+        //todo handling null
+        return technologyRepository.findById(id).orElseThrow();
+
+
+    }
 }

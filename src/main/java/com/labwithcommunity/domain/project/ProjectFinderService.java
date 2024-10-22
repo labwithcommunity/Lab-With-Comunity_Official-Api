@@ -1,23 +1,12 @@
 package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.project.dto.project.ProjectFetchDto;
-import com.labwithcommunity.domain.project.exception.project.ProjectExceptionMessages;
-import com.labwithcommunity.domain.project.exception.project.ProjectNotFoundException;
-import com.labwithcommunity.domain.project.exception.project.UserSignedToProjectException;
-import com.labwithcommunity.domain.tag.TagFacade;
-import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
-import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
-import com.labwithcommunity.domain.user.UserFacade;
-import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 class ProjectFinderService implements ProjectFinder {

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 @AllArgsConstructor
 public class ProjectFacade {
 
@@ -20,5 +18,8 @@ public class ProjectFacade {
 
     public Page<ProjectFetchDto> fetchAllProjects(Long creatorid, Long methodology, Long license, Pageable pageable) {
         return projectFinder.listAllProjects(creatorid,methodology,license,pageable);
+    }
+    public void deleteProject(Long projectId) {
+        projectCreator.deleteProject(projectId);
     }
 }

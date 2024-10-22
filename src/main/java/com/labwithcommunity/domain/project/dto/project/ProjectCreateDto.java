@@ -18,7 +18,9 @@ public record ProjectCreateDto(
         @Positive
         int licenceId,
         @Size(min = 1, max = 255)
-        List<TagCreateDto> tags
+        List<TagCreateDto> tags,
+        Long technologyId,
+        int level
 
 ) {
 }

@@ -29,8 +29,8 @@ public class AssignedTagQueryDto {
     @EqualsAndHashCode.Exclude
     private List<TagQueryDto> tags;
 
-    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
     private ProjectQueryDto project;
 
     @EqualsAndHashCode.Exclude

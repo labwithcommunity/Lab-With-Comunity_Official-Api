@@ -1,6 +1,5 @@
 package com.labwithcommunity.domain.tag;
 
-import com.labwithcommunity.domain.user.UserFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

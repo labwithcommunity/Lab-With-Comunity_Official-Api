@@ -1,6 +1,5 @@
 package com.labwithcommunity.domain.tag;
 
-import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

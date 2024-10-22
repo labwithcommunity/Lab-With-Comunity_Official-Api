@@ -1,6 +1,7 @@
 package com.labwithcommunity.domain.project;
 
 import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
+import com.labwithcommunity.domain.technology.dto.query.UsedTechnologiesQueryDto;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -52,9 +53,13 @@ class ProjectEntity {
     @EqualsAndHashCode.Exclude
     private RatingEntity ratingEntity;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE,orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     private List<AssignedTagQueryDto> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL,orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    private List<UsedTechnologiesQueryDto> usedTechnologies = new ArrayList<>();
 
     public ProjectEntity(String name, String description,
                          MethodologyEntity methodology,

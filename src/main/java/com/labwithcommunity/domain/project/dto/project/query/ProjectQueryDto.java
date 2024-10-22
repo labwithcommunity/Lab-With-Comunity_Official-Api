@@ -1,8 +1,8 @@
 package com.labwithcommunity.domain.project.dto.project.query;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
+import com.labwithcommunity.domain.technology.dto.query.UsedTechnologiesQueryDto;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,9 +43,13 @@ public class ProjectQueryDto {
     @EqualsAndHashCode.Exclude
     private Set<UserQueryDto> participants = new HashSet<>();
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE,orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     private List<AssignedTagQueryDto> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "projectId",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE,orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    private List<UsedTechnologiesQueryDto> usedTechnologies = new ArrayList<>();
 
     public ProjectQueryDto(Long projectId, String name, String description, UserQueryDto creatorid) {
         this.projectId = projectId;

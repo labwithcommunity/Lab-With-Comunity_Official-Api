@@ -13,8 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/v1/projects")
 @RequiredArgsConstructor
@@ -43,5 +41,11 @@ class ProjectController {
         Pageable pageable = PageRequest.of(page, limit);
         Page<ProjectFetchDto> projects = projectFacade.fetchAllProjects(user, methodology, license, pageable);
         return ResponseEntity.ok(projects);
+    }
+
+    @DeleteMapping
+    ResponseEntity<ProjectFetchDto> deleteProject(@RequestParam Long projectId) {
+        projectFacade.deleteProject(projectId);
+       return ResponseEntity.ok().build();
     }
 }

@@ -7,8 +7,7 @@ import com.labwithcommunity.domain.project.exception.project.ProjectExceptionMes
 import com.labwithcommunity.domain.project.exception.project.ProjectTitleAlreadyExistException;
 import com.labwithcommunity.domain.tag.TagFacade;
 import com.labwithcommunity.domain.tag.dto.AssignedTagCreateDto;
-import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
-import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
+import com.labwithcommunity.domain.technology.TechnologyFacade;
 import com.labwithcommunity.domain.user.UserFacade;
 import com.labwithcommunity.domain.user.dto.query.UserQueryDto;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,6 +26,7 @@ class ProjectCreatorService implements ProjectCreator {
     private final MethodologyService methodologyService;
     private final UserFacade userFacade;
     private final TagFacade tagFacade;
+    private final TechnologyFacade technologyFacade;
 
 
     @Override
@@ -38,6 +37,7 @@ class ProjectCreatorService implements ProjectCreator {
         ProjectEntity project = buildProjectEntity(projectCreateDTO, creator);
         ProjectEntity savedProject = projectRepository.save(project);
         ProjectQueryDto projectQueryDto = ProjectMapper.mapToQueryDto(project);
+        technologyFacade.addUsedTechnologies(projectCreateDTO.technologyId(), projectQueryDto,projectCreateDTO.level());
         List<String> tags = tagFacade.addTags(projectCreateDTO, creator);
         AssignedTagCreateDto assignedTagCreateDto = new AssignedTagCreateDto(tags, projectQueryDto, creator);
         tagFacade.assignTag(assignedTagCreateDto);
@@ -63,5 +63,9 @@ class ProjectCreatorService implements ProjectCreator {
             throw new ProjectTitleAlreadyExistException(
                     ProjectExceptionMessages.PROJECT_WITH_GIVEN_TITLE_ALREADY_EXISTS.getMessage());
         }
+    }
+
+    public void deleteProject(Long projectId) {
+        projectRepository.deleteById(projectId);
     }
 }

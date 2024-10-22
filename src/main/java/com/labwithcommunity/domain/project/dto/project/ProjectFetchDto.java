@@ -1,8 +1,5 @@
 package com.labwithcommunity.domain.project.dto.project;
 
-import com.labwithcommunity.domain.tag.dto.query.AssignedTagQueryDto;
-import com.labwithcommunity.domain.tag.dto.query.TagQueryDto;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
